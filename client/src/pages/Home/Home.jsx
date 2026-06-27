@@ -142,109 +142,97 @@ const Home = () => {
     return () => ctx.revert();
   }, []);
 
-  // GSAP: Schedules pinned, Pricing slides up over it
+  // GSAP: Scroll animations for Schedules and Pricing
   useEffect(() => {
     if (!schedulesRef.current || !pricingRef.current) return;
 
-    // Set initial position of pricing section below the viewport
-    gsap.set(pricingRef.current, { yPercent: 100 });
-
-    // Pre-hide pricing cards so we can animate them later
-    const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
-    if (pricingCards.length) {
-      gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
-    }
-
-    let cardsAnimated = false;
-
-    const trigger = ScrollTrigger.create({
-      trigger: schedulesRef.current,
-      start: 'bottom bottom',
-      end: '+=100%',
-      pin: true,
-      pinSpacing: true,
-      scrub: 1,
-      onUpdate: (self) => {
-        // Slide pricing section up
-        gsap.set(pricingRef.current, { yPercent: 100 - self.progress * 100 });
-
-        // When pricing is mostly visible (progress > 0.7), animate cards once
-        if (self.progress > 0.7 && !cardsAnimated && pricingCards.length) {
-          cardsAnimated = true;
-          gsap.to(pricingCards, {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.09,
-            ease: 'power3.out',
-          });
-        }
-
-        // Reset if scrolled back up
-        if (self.progress < 0.5 && cardsAnimated) {
-          cardsAnimated = false;
-          gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
-        }
-      },
-    });
-
-    return () => trigger.kill();
-  }, [schedules, pricePlans]);
-
-  // GSAP: Card animations triggered on scroll
-  useEffect(() => {
-    if (!schedulesRef.current) return;
+    let mm = gsap.matchMedia();
 
     // Small delay to ensure cards are rendered
     const timer = setTimeout(() => {
-      // --- Schedule cards: 3D flip from side ---
+      // --- Schedule cards: 3D flip from side (applies to both desktop and mobile) ---
       const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
       if (scheduleCards?.length) {
-        gsap.set(scheduleCards, { opacity: 0, rotateY: -90, scale: 0.8, transformPerspective: 800 });
-        ScrollTrigger.create({
-          trigger: schedulesRef.current,
-          start: 'top 75%',
-          onEnter: () => {
-            gsap.to(scheduleCards, {
-              opacity: 1,
-              rotateY: 0,
-              scale: 1,
-              duration: 0.7,
-              stagger: 0.08,
-              ease: 'back.out(1.5)',
-            });
-          },
-          once: true,
-        });
+        gsap.fromTo(scheduleCards, 
+          { opacity: 0, rotateY: -90, scale: 0.8, transformPerspective: 800 },
+          {
+            scrollTrigger: {
+              trigger: schedulesRef.current,
+              start: 'top 75%',
+              once: true,
+            },
+            opacity: 1, rotateY: 0, scale: 1, duration: 0.7, stagger: 0.08, ease: 'back.out(1.5)',
+          }
+        );
       }
 
-      // --- Pricing cards: rise + blur when pricing section slides in ---
-      const pricingCards = pricingRef.current?.querySelectorAll('.pricing-card-animate');
-      if (pricingCards?.length) {
-        gsap.set(pricingCards, { opacity: 0, y: 60, filter: 'blur(6px)', scale: 0.88 });
-        ScrollTrigger.create({
+      // --- MatchMedia for Pricing Section ---
+      mm.add("(min-width: 769px)", () => {
+        // Desktop: Pinned schedules, pricing slides up
+        gsap.set(pricingRef.current, { position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 10, yPercent: 100 });
+        
+        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
+        if (pricingCards.length) {
+          gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
+        }
+
+        let cardsAnimated = false;
+
+        const trigger = ScrollTrigger.create({
           trigger: schedulesRef.current,
-          start: 'bottom 60%',
-          onEnter: () => {
-            gsap.to(pricingCards, {
-              opacity: 1,
-              y: 0,
-              filter: 'blur(0px)',
-              scale: 1,
-              duration: 0.65,
-              stagger: 0.1,
-              ease: 'power3.out',
-              delay: 0.3, // slight delay after pricing section starts sliding in
-            });
+          start: 'bottom bottom',
+          end: '+=100%',
+          pin: true,
+          pinSpacing: true,
+          scrub: 1,
+          onUpdate: (self) => {
+            gsap.set(pricingRef.current, { yPercent: 100 - self.progress * 100 });
+
+            if (self.progress > 0.7 && !cardsAnimated && pricingCards.length) {
+              cardsAnimated = true;
+              gsap.to(pricingCards, {
+                opacity: 1, y: 0, filter: 'blur(0px)', scale: 1, duration: 0.6, stagger: 0.09, ease: 'power3.out',
+              });
+            }
+
+            if (self.progress < 0.5 && cardsAnimated) {
+              cardsAnimated = false;
+              gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
+            }
           },
-          once: true,
         });
-      }
+
+        return () => {
+          trigger.kill();
+          gsap.set(pricingRef.current, { clearProps: 'all' });
+        };
+      });
+
+      mm.add("(max-width: 768px)", () => {
+        // Mobile: Normal relative layout, simple scroll trigger
+        gsap.set(pricingRef.current, { position: 'relative', yPercent: 0, zIndex: 1, clearProps: 'all' });
+        
+        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
+        if (pricingCards.length) {
+          gsap.fromTo(pricingCards, 
+            { opacity: 0, y: 40, filter: 'blur(4px)' },
+            {
+              scrollTrigger: {
+                trigger: pricingRef.current,
+                start: 'top 85%',
+                once: true
+              },
+              opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, stagger: 0.1, ease: 'power3.out'
+            }
+          );
+        }
+      });
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      mm.revert();
+    };
   }, [schedules, pricePlans]); // re-run after data loads so cards exist in DOM
 
   const infiniteMenuItems = [
@@ -367,8 +355,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ======== SECTION 6: PRICING — slides up over schedules via GSAP ======== */}
-      <section className="pricing-section content-section" ref={pricingRef} style={{ position: 'fixed', bottom: '0', left: '0', right: '0', zIndex: 10, backgroundColor: 'var(--bg-color, #111)', borderTop: '2px solid rgba(57,255,20,0.2)', width: '100%', padding: '5vh 5vw', minHeight: '100vh', boxSizing: 'border-box' }}>
+      {/* ======== SECTION 6: PRICING ======== */}
+      <section className="pricing-section content-section" ref={pricingRef} style={{ position: 'relative', backgroundColor: 'var(--bg-color, #111)', borderTop: '2px solid rgba(57,255,20,0.2)', width: '100%', padding: '5vh 5vw', minHeight: '100vh', boxSizing: 'border-box' }}>
         <h2 className="section-title">
           أسعار <span className="highlight-green">الاشتراكات</span>
         </h2>
