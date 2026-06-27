@@ -1,6 +1,11 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
+// Explicitly require pg so Vercel serverless bundles it correctly
+// (Sequelize loads it dynamically, which Vercel's bundler misses)
+require('pg');
+require('pg-hstore');
+
 dotenv.config();
 
 // If a DATABASE_URL is provided (typical in production platforms like Render/Netlify), use it.
