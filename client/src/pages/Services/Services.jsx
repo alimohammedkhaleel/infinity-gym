@@ -8,8 +8,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import imgCopy2 from '../../assets/image copy 2.png';
 import imgCopy3 from '../../assets/image copy 3.png';
-import imgCopy4 from '../../assets/image copy 4.png';
-import imgCopy5 from '../../assets/image copy 5.png';
+import imgCopy4 from '../../assets/image copy 8.png';
+import imgCopy5 from '../../assets/image copy 9.png';
 import imgCopy6 from '../../assets/image copy 6.png';
 import './Services.css';
 
