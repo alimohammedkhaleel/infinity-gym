@@ -97,9 +97,9 @@
 
 @media (max-width: 768px) {
   .scroll-tube-wrapper {
-    transform: scale(0.6);
+    display: none !important;
   }
   .scroll-tube-container {
-    min-height: 450px;
+    display: none !important;
   }
 }
