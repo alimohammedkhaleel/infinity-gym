@@ -1,0 +1,105 @@
+.scroll-tube-container {
+  width: 100%;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================ */
+/* Tube Wrapper                                 */
+/* ============================================ */
+.scroll-tube-wrapper {
+  position: relative;
+  width: 500px;
+  height: 700px;
+}
+
+.st-tube-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+/* ============================================ */
+/* Balls                                        */
+/* ============================================ */
+.st-ball {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  margin-top: -30px;
+  margin-left: -30px;
+}
+
+.st-ball-1 {
+  background: radial-gradient(circle at 35% 35%, #ffffff, #fde047, #39ff14);
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.9),
+    0 0 40px rgba(57, 255, 20, 0.6);
+}
+
+.st-ball-2 {
+  background: radial-gradient(circle at 35% 35%, #ffffff, #fef08a, #eab308);
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.9),
+    0 0 40px rgba(234, 179, 8, 0.6);
+}
+
+/* ============================================ */
+/* Entry / Exit Holes                           */
+/* ============================================ */
+.st-hole {
+  position: absolute;
+  width: 70px;
+  height: 25px;
+  border-radius: 50%;
+  z-index: 5;
+  margin-left: -35px;
+}
+
+.st-hole-top {
+  top: 27px;
+  left: 400px;
+  background: radial-gradient(ellipse, rgba(57, 255, 20, 0.8) 0%, rgba(10, 2, 20, 0.95) 70%);
+  border: 2px solid rgba(57, 255, 20, 0.5);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.5);
+}
+
+.st-hole-bottom {
+  top: 627px;
+  left: 100px;
+  background: radial-gradient(ellipse, rgba(234, 179, 8, 0.8) 0%, rgba(10, 2, 20, 0.95) 70%);
+  border: 2px solid rgba(234, 179, 8, 0.5);
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.5);
+}
+
+/* ============================================ */
+/* Responsive                                   */
+/* ============================================ */
+@media (max-width: 1024px) {
+  .scroll-tube-wrapper {
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+  .scroll-tube-container {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-tube-wrapper {
+    transform: scale(0.6);
+  }
+  .scroll-tube-container {
+    min-height: 450px;
+  }
+}

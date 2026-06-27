@@ -1,0 +1,351 @@
+/* Global Container */
+.nctu-full-experience {
+  width: 100%;
+  height: 100vh;
+  background: transparent;
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Wrapper الأفقي الذي يحتوي على كل شيء جنبًا إلى جنب */
+.horizontal-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 100vh;
+  width: max-content;
+  will-change: transform;
+}
+
+/* ============================================ */
+/* 1. Hero Intro */
+/* ============================================ */
+.nctu-hero-intro {
+  width: 100vw; /* يأخذ مساحة الشاشة كاملة لتصبح كشاشة مستقلة تماماً */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 10vw; /* مسافة متساوية من اليمين واليسار */
+  flex-shrink: 0;
+  position: relative; /* ضروري جداً لكي تبقى الأشكال العائمة داخل هذا السكشن فقط */
+}
+
+.hero-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+}
+
+.ready-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(57, 255, 20, 0.1);
+  padding: 8px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.15), inset 0 0 10px rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  color: #39ff14;
+  font-size: 0.85rem;
+  font-weight: 500;
+  width: fit-content;
+  backdrop-filter: blur(5px);
+}
+
+.main-title {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem); 
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.text-white { color: white; }
+.text-purple { 
+  color: #39ff14; 
+  text-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+}
+
+/* أنيميشن Typewriter المتكرر */
+@keyframes typing-rewrite {
+  0%, 10% { width: 0; }
+  40%, 60% { width: 25ch; }
+  90%, 100% { width: 0; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+.typewriter-sub {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: 
+    typing-rewrite 6s steps(25, end) infinite,
+    blink-caret 0.75s step-end infinite;
+  border-right: 3px solid white;
+  width: 25ch;
+  font-size: 1.1rem; 
+  color: white;
+  opacity: 0.9;
+  margin-top: 1rem;
+}
+
+.hero-desc {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem; 
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.tech-pills {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tech-pill {
+  color: #111;
+  background-color: #39ff14;
+  padding: 8px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.25);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.social-links-row {
+  display: flex;
+  gap: 15px;
+}
+
+.s-icon {
+  color: #39ff14;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(57, 255, 20, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.s-icon:hover { transform: translateY(-5px) scale(1.1); }
+
+/* ============================================ */
+/* 1.5. Hero 3D Floating Shapes */
+/* ============================================ */
+.hero-shapes {
+  position: absolute;
+  left: 0; /* Changed for RTL so shapes are on the left */
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 1. Green Dome */
+.shape-dome {
+  position: absolute;
+  bottom: 0;
+  left: 5%; /* RTL adjusted */
+  width: 450px;
+  height: 225px;
+  background: radial-gradient(circle at 50% 0%, var(--primary-yellow) 0%, var(--yellow-700) 100%);
+  border-radius: 250px 250px 0 0;
+  box-shadow: inset 0 20px 40px rgba(255,255,255,0.15);
+  animation: float-dome 8s ease-in-out infinite alternate;
+}
+
+/* 2. Pink Flower (Clover) */
+.shape-flower {
+  position: absolute;
+  top: 20%;
+  left: 15%; /* RTL adjusted */
+  width: 140px;
+  height: 140px;
+  animation: float-flower 10s ease-in-out infinite alternate;
+  z-index: 2;
+  filter: drop-shadow(0 15px 25px rgba(57, 255, 20, 0.4));
+}
+.shape-flower::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 35px;
+  width: 70px; height: 140px;
+  background: linear-gradient(180deg, var(--gray-600), var(--gray-800));
+  border-radius: 50px;
+  box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2), inset 5px 5px 15px rgba(255,255,255,0.4);
+}
+.shape-flower::after {
+  content: '';
+  position: absolute;
+  top: 35px; left: 0;
+  width: 140px; height: 70px;
+  background: linear-gradient(90deg, var(--gray-600), var(--gray-800));
+  border-radius: 50px;
+  box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2), inset 5px 5px 15px rgba(255,255,255,0.4);
+}
+
+/* 3. Blue Torus (Ring) */
+.shape-ring {
+  position: absolute;
+  top: 15%;
+  left: 35%; /* RTL adjusted */
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 25px solid var(--yellow-500);
+  filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.4)) drop-shadow(-2px -2px 5px rgba(255,255,255,0.1));
+  animation: float-ring 7s ease-in-out infinite alternate;
+}
+
+/* 4. Purple Hourglass */
+.shape-hourglass {
+  position: absolute;
+  top: 45%;
+  left: 30%; /* RTL adjusted */
+  width: 0; 
+  height: 0; 
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 40px solid var(--gray-500);
+  border-bottom: 40px solid var(--gray-700);
+  filter: drop-shadow(0px 10px 15px rgba(82, 82, 82, 0.5));
+  animation: float-hourglass 6s ease-in-out infinite alternate;
+}
+
+/* 5. Orange Diamond */
+.shape-diamond {
+  position: absolute;
+  top: 50%;
+  left: 8%; /* RTL adjusted */
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--yellow-300), var(--yellow-600));
+  border-radius: 8px;
+  box-shadow: inset 5px 5px 10px rgba(255,255,255,0.4), inset -5px -5px 10px rgba(0,0,0,0.3), 0 10px 15px rgba(57, 255, 20, 0.4);
+  animation: float-diamond 5s ease-in-out infinite alternate;
+}
+
+@keyframes float-dome {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+@keyframes float-flower {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-30px) rotate(15deg) scale(1.05); }
+}
+@keyframes float-ring {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(25px) rotate(15deg); }
+}
+@keyframes float-hourglass {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-15px) rotate(-10deg); }
+}
+@keyframes float-diamond {
+  0% { transform: translateY(0) rotate(45deg); }
+  100% { transform: translateY(-25px) rotate(70deg); }
+}
+
+/* ============================================ */
+/* 2. Velocity Section */
+/* ============================================ */
+.velocity-text-stream {
+  display: flex;
+  align-items: center;
+  padding-left: 100vw;
+  padding-right: 10vw;
+  height: 100vh;
+  position: relative;
+}
+
+.epic-sentence {
+  font-size: clamp(2rem, 6vw, 4.5rem); 
+  font-weight: 900;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9); /* لم يعد خلفية باهتة بل نص صلب */
+  line-height: 1.2;
+  white-space: nowrap;
+  margin: 0;
+  position: relative; /* ضروري لتمركز الأيقونات العائمة */
+}
+
+/* تنسيق الكلمات التي ستتحرك */
+.creative-span {
+  display: inline-block;
+  color: white;
+  margin: 0 0.1em;
+  will-change: transform, opacity;
+  /* GSAP يتولى تحريك الألوان، لا حاجة للـ transition */
+}
+
+/* تنسيق الأيقونات العائمة (Lucide React) */
+.creative-icon {
+  position: absolute;
+  display: inline-block;
+  will-change: transform, opacity;
+  z-index: 10; /* لتكون فوق الكلام */
+  filter: drop-shadow(0 0 15px currentColor);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nctu-full-experience { 
+    height: auto; 
+    overflow: visible; 
+  }
+  .horizontal-content-wrapper { 
+    flex-direction: column; 
+    height: auto; 
+    width: 100vw; 
+  }
+  .nctu-hero-intro { 
+    padding: 8vh 5vw; 
+    justify-content: center; 
+    text-align: center; 
+    width: 100vw; 
+    height: auto;
+    min-height: auto;
+  }
+  .hero-shapes {
+    display: none !important;
+  }
+  .hero-wrapper { 
+    align-items: center; 
+    gap: 1.5rem;
+  }
+  .main-title { 
+    font-size: 2.2rem; 
+  }
+  .velocity-text-stream { 
+    padding: 40px 1.5rem; 
+    height: auto; 
+    align-items: flex-start;
+  }
+  .epic-sentence { 
+    font-size: 1.8rem; 
+    white-space: normal; 
+    line-height: 1.5; 
+  }
+  
+  .creative-icon {
+    position: relative;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin: 10px;
+    display: inline-flex;
+  }
+}

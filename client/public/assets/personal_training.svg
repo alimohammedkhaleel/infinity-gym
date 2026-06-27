@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#0a0a0a"/>
+  <rect x="0" y="0" width="800" height="4" fill="#39ff14"/>
+  <rect x="0" y="496" width="800" height="4" fill="#39ff14"/>
+  <!-- Two figures: trainer + trainee -->
+  <circle cx="400" cy="200" r="80" fill="none" stroke="#39ff14" stroke-width="3" opacity="0.6"/>
+  <!-- Trainer (left, slightly larger) -->
+  <circle cx="383" cy="158" r="11" fill="none" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <line x1="383" y1="169" x2="383" y2="205" stroke="#39ff14" stroke-width="3" opacity="0.9"/>
+  <line x1="383" y1="180" x2="365" y2="192" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Trainer arm pointing to trainee -->
+  <line x1="383" y1="180" x2="403" y2="178" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <line x1="383" y1="205" x2="372" y2="230" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <line x1="383" y1="205" x2="393" y2="230" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Trainee (right) -->
+  <circle cx="418" cy="158" r="10" fill="none" stroke="#39ff14" stroke-width="2" opacity="0.7"/>
+  <line x1="418" y1="168" x2="418" y2="202" stroke="#39ff14" stroke-width="2.5" opacity="0.7"/>
+  <line x1="418" y1="178" x2="435" y2="190" stroke="#39ff14" stroke-width="2" opacity="0.7"/>
+  <line x1="418" y1="178" x2="403" y2="178" stroke="#39ff14" stroke-width="2" opacity="0.7"/>
+  <line x1="418" y1="202" x2="408" y2="228" stroke="#39ff14" stroke-width="2" opacity="0.7"/>
+  <line x1="418" y1="202" x2="428" y2="228" stroke="#39ff14" stroke-width="2" opacity="0.7"/>
+  <!-- Star/certification badge -->
+  <polygon points="400,245 403,255 413,255 405,261 408,271 400,265 392,271 395,261 387,255 397,255" fill="#39ff14" opacity="0.5"/>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#39ff14" text-anchor="middle">Personal Training</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" fill="#666" text-anchor="middle">Infinity Gym</text>
+</svg>

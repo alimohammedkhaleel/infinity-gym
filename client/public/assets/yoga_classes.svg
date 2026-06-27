@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#0a0a0a"/>
+  <rect x="0" y="0" width="800" height="4" fill="#39ff14"/>
+  <rect x="0" y="496" width="800" height="4" fill="#39ff14"/>
+  <!-- Lotus / yoga pose icon -->
+  <circle cx="400" cy="200" r="80" fill="none" stroke="#39ff14" stroke-width="3" opacity="0.6"/>
+  <!-- Head -->
+  <circle cx="400" cy="152" r="11" fill="none" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Body seated upright -->
+  <line x1="400" y1="163" x2="400" y2="200" stroke="#39ff14" stroke-width="3" opacity="0.9"/>
+  <!-- Arms outstretched (meditation pose) -->
+  <line x1="400" y1="175" x2="365" y2="195" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <line x1="400" y1="175" x2="435" y2="195" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Hands (small circles) -->
+  <circle cx="362" cy="197" r="4" fill="#39ff14" opacity="0.8"/>
+  <circle cx="438" cy="197" r="4" fill="#39ff14" opacity="0.8"/>
+  <!-- Cross-legged legs -->
+  <path d="M400 200 Q375 215 360 230 Q380 235 400 225 Q420 235 440 230 Q425 215 400 200Z" fill="none" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Lotus petals (decorative) -->
+  <ellipse cx="400" cy="245" rx="30" ry="10" fill="none" stroke="#39ff14" stroke-width="1.5" opacity="0.4"/>
+  <ellipse cx="375" cy="238" rx="10" ry="18" fill="none" stroke="#39ff14" stroke-width="1.5" opacity="0.3" transform="rotate(-30 375 238)"/>
+  <ellipse cx="425" cy="238" rx="10" ry="18" fill="none" stroke="#39ff14" stroke-width="1.5" opacity="0.3" transform="rotate(30 425 238)"/>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#39ff14" text-anchor="middle">Yoga Classes</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" fill="#666" text-anchor="middle">Infinity Gym</text>
+</svg>

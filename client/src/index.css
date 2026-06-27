@@ -1,0 +1,166 @@
+/* ============================================
+   Infinity Gym - Global CSS (RTL Arabic)
+   Dark Mode: #0a0a0a / #121212
+   Accent: Neon Green #39ff14
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-card: #1a1a1a;
+  --bg-card-hover: #222222;
+  --accent: #39ff14;
+  --accent-dim: rgba(57, 255, 20, 0.15);
+  --accent-glow: 0 0 20px rgba(57, 255, 20, 0.6), 0 0 40px rgba(57, 255, 20, 0.3);
+  --text-primary: #f0f0f0;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --border: rgba(57, 255, 20, 0.12);
+  --border-hover: rgba(57, 255, 20, 0.4);
+  --red: #ff4444;
+  --red-glow: 0 0 20px rgba(255, 68, 68, 0.6);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  direction: rtl; /* Global RTL for Arabic */
+}
+
+body {
+  font-family: 'Cairo', 'Outfit', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-align: right;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ---- Selection ---- */
+::selection { background: var(--accent); color: var(--bg-primary); }
+
+/* ---- Utility ---- */
+.neon-text {
+  color: var(--accent);
+  text-shadow: var(--accent-glow);
+}
+
+.neon-border {
+  border: 1px solid var(--border);
+  transition: border-color 0.3s ease;
+}
+.neon-border:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--accent-glow);
+}
+
+.glass {
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  padding: 12px 28px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--accent-glow);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.8), 0 0 60px rgba(57, 255, 20, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 12px 28px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: var(--accent-dim);
+  box-shadow: var(--accent-glow);
+}
+
+/* ---- Presentation Screen ---- */
+.presentation-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ---- Section titles ---- */
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+/* ---- Cards ---- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--accent-glow);
+}
+
+/* ---- Global Select / Dropdown Dark Fix ---- */
+select {
+  background-color: #1a1a1a;
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select option {
+  background-color: #1a1a1a;
+  color: var(--text-primary);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+

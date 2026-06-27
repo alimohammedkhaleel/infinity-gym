@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#0a0a0a"/>
+  <rect x="0" y="0" width="800" height="4" fill="#39ff14"/>
+  <rect x="0" y="496" width="800" height="4" fill="#39ff14"/>
+  <!-- Apple / nutrition icon -->
+  <circle cx="400" cy="200" r="80" fill="none" stroke="#39ff14" stroke-width="3" opacity="0.6"/>
+  <!-- Apple body -->
+  <path d="M400 175 Q370 172 358 193 Q348 212 352 232 Q358 252 370 258 Q385 264 400 258 Q415 264 430 258 Q442 252 448 232 Q452 212 442 193 Q430 172 400 175Z" fill="none" stroke="#39ff14" stroke-width="2.5" opacity="0.9"/>
+  <!-- Apple stem -->
+  <path d="M400 175 Q402 163 410 158 Q415 155 418 157" fill="none" stroke="#39ff14" stroke-width="2" opacity="0.8"/>
+  <!-- Apple leaf -->
+  <path d="M410 158 Q420 148 428 155 Q422 162 413 160Z" fill="#39ff14" opacity="0.7"/>
+  <!-- Apple highlight -->
+  <ellipse cx="382" cy="198" rx="7" ry="10" fill="#39ff14" opacity="0.2" transform="rotate(-20 382 198)"/>
+  <!-- Nutrition cross symbol -->
+  <line x1="397" y1="212" x2="403" y2="212" stroke="#39ff14" stroke-width="1.5" opacity="0.5"/>
+  <line x1="400" y1="209" x2="400" y2="215" stroke="#39ff14" stroke-width="1.5" opacity="0.5"/>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#39ff14" text-anchor="middle">Nutrition &amp; Diet</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" fill="#666" text-anchor="middle">Infinity Gym</text>
+</svg>

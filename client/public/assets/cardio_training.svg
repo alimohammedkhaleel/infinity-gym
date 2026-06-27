@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#0a0a0a"/>
+  <rect x="0" y="0" width="800" height="4" fill="#39ff14"/>
+  <rect x="0" y="496" width="800" height="4" fill="#39ff14"/>
+  <!-- Treadmill icon -->
+  <circle cx="400" cy="200" r="80" fill="none" stroke="#39ff14" stroke-width="3" opacity="0.6"/>
+  <!-- Running figure silhouette -->
+  <circle cx="400" cy="155" r="12" fill="#39ff14" opacity="0.8"/>
+  <line x1="400" y1="167" x2="400" y2="205" stroke="#39ff14" stroke-width="3" opacity="0.8"/>
+  <!-- Arms -->
+  <line x1="400" y1="178" x2="378" y2="193" stroke="#39ff14" stroke-width="3" opacity="0.8"/>
+  <line x1="400" y1="178" x2="422" y2="188" stroke="#39ff14" stroke-width="3" opacity="0.8"/>
+  <!-- Legs running pose -->
+  <line x1="400" y1="205" x2="385" y2="232" stroke="#39ff14" stroke-width="3" opacity="0.8"/>
+  <line x1="400" y1="205" x2="418" y2="228" stroke="#39ff14" stroke-width="3" opacity="0.8"/>
+  <!-- Treadmill belt -->
+  <rect x="360" y="235" width="80" height="8" rx="4" fill="#39ff14" opacity="0.5"/>
+  <!-- Speed lines -->
+  <line x1="330" y1="178" x2="352" y2="178" stroke="#39ff14" stroke-width="2" opacity="0.4"/>
+  <line x1="325" y1="188" x2="347" y2="188" stroke="#39ff14" stroke-width="2" opacity="0.4"/>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#39ff14" text-anchor="middle">Cardio Training</text>
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="16" fill="#666" text-anchor="middle">Infinity Gym</text>
+</svg>

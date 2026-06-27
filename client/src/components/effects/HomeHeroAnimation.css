@@ -1,0 +1,103 @@
+.home-hero-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero-main-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.home-hero-text-wrapper {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.home-hero-title1, .home-hero-title2 {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-hero-title1 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 900;
+  color: #39ff14;
+  text-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.home-hero-title2 {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.hero-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.home-hero-corner-image {
+  position: absolute;
+  width: 20vw;
+  max-width: 300px;
+  height: 25vh;
+  object-fit: cover;
+  border-radius: 15px;
+  z-index: 5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(57, 255, 20, 0.3);
+}
+
+/* Positions for corner images - padded to stay fully inside */
+.pos-0 { top: 15%; left: 4%; }
+.pos-1 { top: 15%; right: 4%; }
+.pos-2 { bottom: 20%; left: 4%; }
+.pos-3 { bottom: 20%; right: 4%; }
+
+@media (max-width: 768px) {
+
+  .home-hero-corner-image {
+    width: 25vw;
+    height: 15vh;
+  }
+  .pos-0 { top: 2%; left: 2%; }
+  .pos-1 { top: 2%; right: 2%; }
+  .pos-2 { bottom: 2%; left: 2%; }
+  .pos-3 { bottom: 2%; right: 2%; }
+}
