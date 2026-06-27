@@ -143,7 +143,9 @@ const Presentation = ({ onFinish }) => {
                   opacity: 0
                 }}
               >
-                <Dumbbell size={35} style={{ transform: 'rotate(-45deg)' }} />
+                <span className="dumbbell-icon">
+                  <Dumbbell size={65} style={{ transform: 'rotate(-45deg)' }} />
+                </span>
               </span>
             </span>
             {renderLetters("nity Gym")}

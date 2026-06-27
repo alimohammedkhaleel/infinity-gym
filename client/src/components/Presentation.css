@@ -35,4 +35,8 @@
   .text-container {
     padding: 0 1rem;
   }
+  .dumbbell-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
 }
