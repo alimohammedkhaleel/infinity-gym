@@ -8,28 +8,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Import models + associations (NCT System pattern)
-const {
-  sequelize, defineAssociations,
-  User, GymClass, PricePlan, Schedule, PersonalTraining
-} = require('./config/models');
-
-// Import routes
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-
-// Import seed
-const seedDatabase = require('./seed-data');
-
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // ==================== Middleware ====================
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
     if (!origin) return callback(null, true);
     const allowed = [
       'http://localhost:5173',
@@ -38,10 +22,15 @@ app.use(cors({
       process.env.CLIENT_URL,
     ].filter(Boolean);
     if (allowed.some(o => origin.startsWith(o))) return callback(null, true);
-    // In production, also allow any HTTPS origin matching CLIENT_URL domain
     if (process.env.NODE_ENV === 'production' && process.env.CLIENT_URL) {
-      const domain = new URL(process.env.CLIENT_URL).hostname;
-      if (origin.includes(domain)) return callback(null, true);
+      try {
+        const domain = new URL(process.env.CLIENT_URL).hostname;
+        if (origin.includes(domain)) return callback(null, true);
+      } catch (_) {}
+    }
+    // Allow all Netlify and Vercel preview domains in production
+    if (origin.endsWith('.netlify.app') || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
     }
     callback(new Error(`CORS blocked: ${origin}`));
   },
@@ -53,17 +42,65 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// ==================== Lazy DB Initializer ====================
+let dbReady = false;
+let dbError = null;
+
+const initDB = async () => {
+  if (dbReady) return;
+  if (dbError) throw dbError;
+
+  const { sequelize, defineAssociations } = require('./config/models');
+  const seedDatabase = require('./seed-data');
+
+  defineAssociations();
+
+  await sequelize.authenticate();
+
+  const tables = await sequelize.getQueryInterface().showAllTables();
+  if (tables.length === 0) {
+    await sequelize.sync({ force: true });
+  } else {
+    await sequelize.sync({ alter: false });
+  }
+
+  await seedDatabase();
+
+  // Start cron only when NOT on Vercel (Vercel is stateless per request)
+  if (!process.env.VERCEL) {
+    const { initCronJobs } = require('./services/cronService');
+    initCronJobs();
+  }
+
+  dbReady = true;
+};
+
+// ==================== DB Init Middleware ====================
+app.use(async (req, res, next) => {
+  try {
+    await initDB();
+    next();
+  } catch (err) {
+    console.error('DB init error:', err.message);
+    res.status(503).json({ success: false, message: 'Database unavailable', error: err.message });
+  }
+});
+
 // ==================== Routes ====================
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', app: 'Infinity Gym API', timestamp: new Date().toISOString() });
+  res.json({ status: 'OK', app: 'Infinity Gym API', dbReady, timestamp: new Date().toISOString() });
 });
 
-// Manual expiry trigger (for Render/Vercel cron ping)
+// Cron trigger
 app.get('/api/cron/expire', async (req, res) => {
   const secret = req.headers['x-cron-secret'];
   if (secret !== process.env.CRON_SECRET && process.env.NODE_ENV === 'production') {
@@ -89,60 +126,24 @@ app.use((err, req, res, next) => {
   });
 });
 
-const { initWhatsApp } = require('./services/whatsappService');
-const { initCronJobs } = require('./services/cronService');
+// ==================== Local Dev: Start HTTP Server ====================
+if (!process.env.VERCEL) {
+  const { initWhatsApp } = require('./services/whatsappService');
+  const PORT = process.env.PORT || 5000;
 
-// ==================== Start Server (NCT System pattern) ====================
-const isVercel = !!process.env.VERCEL;
-
-const startServer = async () => {
-  try {
-    // 1. Define associations BEFORE sync
-    defineAssociations();
-    console.log('✅ Model associations defined.');
-
-    // 2. Test DB connection
-    await sequelize.authenticate();
-    console.log('✅ Database connected.');
-
-    // 3. Sync tables
-    const results = await sequelize.getQueryInterface().showAllTables();
-    if (results.length === 0) {
-      await sequelize.sync({ force: true });
-      console.log('✅ Database tables created (first run).');
-    } else {
-      await sequelize.sync({ alter: false });
-      console.log('✅ Database tables verified (no schema changes).');
-    }
-
-    // 4. Seed default data
-    await seedDatabase();
-
-    // 5. Start background services
-    if (!isVercel) {
+  initDB()
+    .then(() => {
       initWhatsApp();
-      initCronJobs();
-    } else {
-      console.log('ℹ️ Vercel serverless environment detected — background services (WhatsApp/Cron) disabled on startup.');
-    }
-
-    // 6. Start API Server (only if not on Vercel, Vercel wraps the app export)
-    if (!isVercel) {
       app.listen(PORT, () => {
         console.log(`🚀 Infinity Gym Server running on port ${PORT}`);
         console.log(`🌐 Client: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
         console.log(`📊 Admin: admin@infinitygym.com / Admin@123`);
       });
-    }
-  } catch (error) {
-    console.error('❌ Server start failed:', error.message);
-    if (!isVercel) {
+    })
+    .catch(err => {
+      console.error('❌ Server start failed:', err.message);
       process.exit(1);
-    } else {
-      console.log('ℹ️ Running in Vercel environment. Keeping process alive despite DB/sync failure to expose logs.');
-    }
-  }
-};
+    });
+}
 
-startServer();
 module.exports = app;
