@@ -218,9 +218,9 @@ const Home = () => {
       </div>
 
       {/* ======== FOOTER PARALLAX WRAPPER ======== */}
-      <div className="footer-parallax-wrapper" style={{ position: 'relative', width: '100%' }}>
+      <div className="footer-parallax-wrapper" style={{ position: 'relative', width: '100%', height: '200vh' }}>
         {/* ======== SECTION 5.5: SCHEDULES ======== */}
-        <section className="schedules-section content-section" ref={addToRefs} dir="rtl" style={{ position: 'sticky', bottom: '0', zIndex: 1, paddingBottom: '10vh', paddingTop: '5vh' }}>
+        <section className="schedules-section content-section" ref={addToRefs} dir="rtl" style={{ position: 'sticky', top: '0', height: '100vh', zIndex: 1, paddingBottom: '10vh', paddingTop: '5vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <h2 className="section-title">
             مواعيد <span className="highlight-green">الجيم</span>
           </h2>
@@ -259,7 +259,7 @@ const Home = () => {
         </section>
 
         {/* ======== SECTION 6: PRICING ======== */}
-        <section className="pricing-section content-section" ref={addToRefs} style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '10vh', borderTop: '2px solid rgba(255,255,255,0.05)', width: '100%', maxWidth: '100%', margin: '0', padding: '5vh 20px' }}>
+        <section className="pricing-section content-section" ref={addToRefs} style={{ position: 'absolute', top: '100vh', left: '0', right: '0', minHeight: '100vh', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '10vh', borderTop: '2px solid rgba(255,255,255,0.05)', width: '100%', maxWidth: '100%', margin: '0', padding: '5vh 20px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2 className="section-title">
             أسعار <span className="highlight-green">الاشتراكات</span>
