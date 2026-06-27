@@ -117,7 +117,7 @@ exports.getLeaderboard = async (req, res) => {
     const leaderboard = await Referral.findAll({
       where: { status: 'active' },
       attributes: ['referrer_id', [sequelize.fn('COUNT', sequelize.col('referrer_id')), 'points']],
-      group: ['referrer_id'],
+      group: ['referrer_id', 'referrer.id', 'referrer.full_name', 'referrer.gym_id', 'referrer.gender'],
       include: [{ model: User, as: 'referrer', attributes: ['full_name', 'gym_id', 'gender'] }],
       order: [[sequelize.literal('points'), 'DESC']],
       limit: 20

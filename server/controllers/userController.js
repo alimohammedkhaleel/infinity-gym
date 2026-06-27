@@ -209,7 +209,7 @@ exports.getLeaderboard = async (req, res) => {
           attributes: ['full_name', 'gym_id', 'gender']
         }
       ],
-      group: ['referrer_id', 'referrer.id'],
+      group: ['referrer_id', 'referrer.id', 'referrer.full_name', 'referrer.gym_id', 'referrer.gender'],
       order: [[sequelize.literal('referral_count'), 'DESC']],
       limit: 10
     });
