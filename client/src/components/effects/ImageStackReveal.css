@@ -86,7 +86,12 @@
 
 @media (max-width: 768px) {
   .isr-img {
-    width: 40vw;
-    height: 25vh;
+    width: 25vw;
+    min-width: 100px; /* Override desktop min-width */
+    height: 15vh;
   }
+  .isr-pos-1 { top: 3%; left: 3%; }
+  .isr-pos-2 { bottom: 3%; right: 3%; }
+  .isr-pos-3 { top: 3%; right: 3%; }
+  .isr-pos-4 { bottom: 3%; left: 3%; }
 }

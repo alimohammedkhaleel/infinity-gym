@@ -45,6 +45,11 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
+@media (max-width: 768px) {
+  ::-webkit-scrollbar { width: 0px; background: transparent; }
+  ::-webkit-scrollbar-thumb { background: transparent; }
+}
+
 /* ---- Selection ---- */
 ::selection { background: var(--accent); color: var(--bg-primary); }
 
