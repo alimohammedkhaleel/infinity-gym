@@ -50,7 +50,7 @@ exports.verifyQR = async (req, res) => {
 
     // Reject if older than 1 window (60 seconds)
     if (Math.abs(currentWindow - parsed.window) > 1) {
-      return res.status(400).json({ success: false, message: '⛔ QR Code expired. Ask member to refresh.' });
+      return res.status(400).json({ success: false, message: '⛔ انتهت صلاحية الكود. اطلب من العضو تجديده.' });
     }
 
     const secret = process.env.QR_SECRET || 'infinity_gym_secret_2024';
@@ -60,18 +60,50 @@ exports.verifyQR = async (req, res) => {
       .digest('hex');
 
     if (expected !== parsed.token) {
-      return res.status(400).json({ success: false, message: '⛔ Invalid QR Code.' });
+      return res.status(400).json({ success: false, message: '⛔ كود QR غير صالح.' });
     }
 
     const user = await User.findByPk(parsed.user_id, {
       attributes: ['id', 'full_name', 'gym_id', 'status', 'subscription_end', 'gender', 'is_frozen']
     });
 
-    if (!user || user.status !== 'active') {
-      return res.status(400).json({ success: false, message: '⛔ Member subscription is not active.' });
+    if (!user) {
+      return res.status(404).json({ success: false, message: '⛔ العضو غير موجود.' });
     }
 
-    return res.status(200).json({ success: true, message: '✅ Access Granted!', member: user });
+    // Check subscription_end explicitly — don't rely only on status field
+    const now = new Date();
+    if (user.subscription_end && new Date(user.subscription_end) < now) {
+      // Auto-update status if stale
+      await User.update({ status: 'expired', is_frozen: false }, { where: { id: user.id } });
+      return res.status(400).json({
+        success: false,
+        message: `⛔ انتهى اشتراك ${user.full_name} في ${new Date(user.subscription_end).toLocaleDateString('ar-EG')}.`
+      });
+    }
+
+    if (user.is_frozen || user.status === 'frozen') {
+      return res.status(400).json({
+        success: false,
+        message: `❄️ حساب ${user.full_name} مجمد حالياً.`
+      });
+    }
+
+    if (user.status !== 'active') {
+      return res.status(400).json({
+        success: false,
+        message: `⛔ اشتراك ${user.full_name} غير نشط (${user.status}).`
+      });
+    }
+
+    const daysLeft = Math.ceil((new Date(user.subscription_end) - now) / (1000 * 60 * 60 * 24));
+
+    return res.status(200).json({
+      success: true,
+      message: `✅ مرحباً ${user.full_name}!`,
+      member: user,
+      days_left: daysLeft
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

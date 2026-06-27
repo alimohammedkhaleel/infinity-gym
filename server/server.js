@@ -29,11 +29,21 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
-      callback(null, true);
-    } else {
-      callback(null, process.env.CLIENT_URL || 'http://localhost:5173');
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    const allowed = [
+      'http://localhost:5173',
+      'http://localhost:4173',
+      'http://127.0.0.1:5173',
+      process.env.CLIENT_URL,
+    ].filter(Boolean);
+    if (allowed.some(o => origin.startsWith(o))) return callback(null, true);
+    // In production, also allow any HTTPS origin matching CLIENT_URL domain
+    if (process.env.NODE_ENV === 'production' && process.env.CLIENT_URL) {
+      const domain = new URL(process.env.CLIENT_URL).hostname;
+      if (origin.includes(domain)) return callback(null, true);
     }
+    callback(new Error(`CORS blocked: ${origin}`));
   },
   credentials: true
 }));
@@ -51,6 +61,17 @@ app.use('/api/admin', adminRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', app: 'Infinity Gym API', timestamp: new Date().toISOString() });
+});
+
+// Manual expiry trigger (for Render/Vercel cron ping)
+app.get('/api/cron/expire', async (req, res) => {
+  const secret = req.headers['x-cron-secret'];
+  if (secret !== process.env.CRON_SECRET && process.env.NODE_ENV === 'production') {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+  const { updateExpiredSubscriptions } = require('./services/cronService');
+  await updateExpiredSubscriptions();
+  res.json({ success: true, message: 'Expiry check done.' });
 });
 
 // 404

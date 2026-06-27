@@ -4,10 +4,16 @@ const { User, Referral } = require('../config/models');
 const { Op } = require('sequelize');
 const crypto = require('crypto');
 
-// ==================== Generate Gym ID ====================
+// ==================== Generate Gym ID (race-condition safe) ====================
+// Uses MAX(id) + random suffix instead of COUNT to avoid duplicate IDs
+// under concurrent registrations.
 const generateGymId = async () => {
-  const count = await User.count();
-  return `GYM-${String(count + 1).padStart(4, '0')}`;
+  const sequelize = require('../config/database');
+  const [rows] = await sequelize.query('SELECT MAX(id) as maxId FROM users');
+  const nextNum = (rows[0]?.maxId ?? 0) + 1;
+  // Add a short random hex suffix to guarantee uniqueness even on collision
+  const suffix = crypto.randomBytes(2).toString('hex').toUpperCase();
+  return `GYM-${String(nextNum).padStart(4, '0')}-${suffix}`;
 };
 
 // ==================== Generate JWT ====================

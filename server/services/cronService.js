@@ -1,64 +1,100 @@
-const cron = require('node-cron');
+/**
+ * Cron Jobs — Infinity Gym
+ *
+ * Jobs:
+ *  1. [CRITICAL] Every hour  — mark expired subscriptions as 'expired'
+ *  2. Daily 10:00 AM         — WhatsApp expiry reminders (3 days before)
+ *  3. Daily 10:05 AM         — WhatsApp motivation messages
+ */
+
+let cron;
+try { cron = require('node-cron'); } catch {
+  console.log('ℹ️  node-cron not installed — scheduled jobs disabled.');
+  module.exports = { initCronJobs: () => {} };
+  return;
+}
+
 const { User } = require('../config/models');
-const { Op } = require('sequelize');
-const whatsappService = require('./whatsappService');
+const { Op }   = require('sequelize');
+const whatsapp = require('./whatsappService');
 
-const initCronJobs = () => {
-  // Run everyday at 10:00 AM
-  cron.schedule('0 10 * * *', async () => {
-    console.log('🕒 Running daily WhatsApp reminders cron job...');
-    try {
-      if (!whatsappService.getStatus().isConnected) {
-        console.log('⚠️ WhatsApp not connected. Skipping cron job.');
-        return;
-      }
+// ─── helper ────────────────────────────────────────────────────────────────
+const updateExpiredSubscriptions = async () => {
+  try {
+    const now = new Date();
 
-      // 1. Expiry Reminders (Expiring in 3 days)
-      const threeDaysFromNow = new Date();
-      threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
-      
-      const expiringUsers = await User.findAll({
+    // Members whose subscription_end has passed but still marked active/frozen
+    const [count] = await User.update(
+      { status: 'expired', is_frozen: false },
+      {
         where: {
           role: 'member',
-          status: 'active',
+          status: { [Op.in]: ['active', 'frozen'] },
           subscription_end: {
-            [Op.between]: [
-              new Date(threeDaysFromNow.setHours(0,0,0,0)), 
-              new Date(threeDaysFromNow.setHours(23,59,59,999))
+            [Op.and]: [
+              { [Op.lt]: now },
+              { [Op.ne]: null }
             ]
           }
         }
+      }
+    );
+
+    if (count > 0) console.log(`⏰ Cron: marked ${count} subscription(s) as expired.`);
+  } catch (err) {
+    console.error('❌ Cron expiry update error:', err.message);
+  }
+};
+
+// ─── init ──────────────────────────────────────────────────────────────────
+const initCronJobs = () => {
+
+  // 1. Subscription expiry — runs every hour (and once immediately on startup)
+  updateExpiredSubscriptions(); // run once immediately at startup
+  cron.schedule('0 * * * *', updateExpiredSubscriptions);
+  console.log('✅ Cron: subscription expiry job active (hourly).');
+
+  // 2. WhatsApp reminders — daily at 10:00 AM
+  cron.schedule('0 10 * * *', async () => {
+    if (!whatsapp.getStatus().isConnected) return;
+
+    try {
+      const threeDaysLater = new Date();
+      threeDaysLater.setDate(threeDaysLater.getDate() + 3);
+      const start = new Date(threeDaysLater); start.setHours(0, 0, 0, 0);
+      const end   = new Date(threeDaysLater); end.setHours(23, 59, 59, 999);
+
+      const expiring = await User.findAll({
+        where: { role: 'member', status: 'active', subscription_end: { [Op.between]: [start, end] } }
       });
 
-      for (const user of expiringUsers) {
-        const msg = `⚠️ تنبيه: اشتراكك في Infinity Gym على وشك الانتهاء خلال 3 أيام (${new Date(user.subscription_end).toLocaleDateString('ar-EG')}). تواصل معنا لتجديده والاستمرار في رحلتك الرياضية! 💚`;
-        await whatsappService.sendMessage(user.phone, msg);
-        await new Promise(res => setTimeout(res, 2000));
+      for (const u of expiring) {
+        const msg = `⚠️ تنبيه: اشتراكك في Infinity Gym ينتهي خلال 3 أيام (${new Date(u.subscription_end).toLocaleDateString('ar-EG')}). تواصل معنا لتجديده! 💚`;
+        await whatsapp.sendMessage(u.phone, msg);
+        await new Promise(r => setTimeout(r, 2000));
       }
+    } catch (err) { console.error('❌ WA expiry reminder error:', err.message); }
+  });
 
-      // 2. Active Users Daily Motivation
-      const activeUsers = await User.findAll({
-        where: { role: 'member', status: 'active' }
-      });
+  // 3. Daily motivation — 10:05 AM
+  cron.schedule('5 10 * * *', async () => {
+    if (!whatsapp.getStatus().isConnected) return;
 
-      const motivations = [
-        '🌟 أنت أقوى مما تظن! كل تمرين يقربك من نسخة أفضل منك. Infinity Gym معك في كل خطوة 💪',
-        '🔥 لا تتوقف عندما تتعب، توقف عندما تنتهي! ننتظرك اليوم في Infinity Gym.',
-        '💪 استمر في العمل الشاق! نتائج اليوم هي مجهود الأمس. نهارك سعيد من Infinity Gym.'
-      ];
-      
-      const randomMsg = motivations[Math.floor(Math.random() * motivations.length)];
+    const msgs = [
+      '🌟 أنت أقوى مما تظن! كل تمرين يقربك من نسخة أفضل. Infinity Gym معك 💪',
+      '🔥 لا تتوقف عندما تتعب، توقف عندما تنتهي! ننتظرك في Infinity Gym.',
+      '💪 استمر في العمل الشاق! نتائج اليوم هي مجهود الأمس. من Infinity Gym 🏋️'
+    ];
+    const msg = msgs[Math.floor(Math.random() * msgs.length)];
 
-      for (const user of activeUsers) {
-        await whatsappService.sendMessage(user.phone, `مرحباً كابتن ${user.full_name}،\n${randomMsg}`);
-        // Delay slightly to prevent ban
-        await new Promise(res => setTimeout(res, 2000));
+    try {
+      const active = await User.findAll({ where: { role: 'member', status: 'active' } });
+      for (const u of active) {
+        await whatsapp.sendMessage(u.phone, `مرحباً ${u.full_name}،\n${msg}`);
+        await new Promise(r => setTimeout(r, 2000));
       }
-
-    } catch (err) {
-      console.error('❌ Error in cron job:', err);
-    }
+    } catch (err) { console.error('❌ WA motivation error:', err.message); }
   });
 };
 
-module.exports = { initCronJobs };
+module.exports = { initCronJobs, updateExpiredSubscriptions };
