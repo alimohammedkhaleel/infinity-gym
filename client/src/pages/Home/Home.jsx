@@ -151,14 +151,8 @@ const Home = () => {
   return (
     <div className="home-page" dir="rtl">
 
-      {/* ======== HERO (STICKY) ======== */}
-      <div className="home-sticky-hero" style={{ position: 'sticky', top: 0, height: '100vh', zIndex: 1, overflow: 'hidden' }}>
-        <HomeHeroAnimation />
-      </div>
-
-      {/* ======== CONTENT OVERLAY ======== */}
-      <div className="home-content-overlay" style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '50px' }}>
-
+      {/* ======== HERO ======== */}
+      <HomeHeroAnimation />
 
       {/* ======== SECTION 1: INFINITE MENU ======== */}
       <div ref={addToRefs}>
@@ -179,12 +173,12 @@ const Home = () => {
       </div>
 
       {/* ======== NEW ANIMATIONS SECTION ======== */}
-      <div className="home-animations-wrapper" style={{ width: '100%', direction: 'ltr' }}>
-        <TextToImages />
-        <div style={{ marginTop: '150vh' }}>
-          <ImageStackReveal />
+      <div className="home-animations-wrapper" style={{ width: '100%', direction: 'ltr', paddingTop: '10vh' }}>
+          <TextToImages />
+          <div style={{ marginTop: '150vh' }}>
+            <ImageStackReveal />
+          </div>
         </div>
-      </div>
 
       {/* ======== CORE PHILOSOPHY ======== */}
       <section className="content-section core-philosophy-section">
@@ -224,7 +218,7 @@ const Home = () => {
       </div>
 
       {/* ======== SECTION 5.5: SCHEDULES ======== */}
-      <section className="schedules-section content-section" ref={addToRefs} dir="rtl">
+      <section className="schedules-section content-section" ref={addToRefs} dir="rtl" style={{ position: 'sticky', bottom: '0', zIndex: 1, paddingBottom: '10vh', paddingTop: '5vh' }}>
         <h2 className="section-title">
           مواعيد <span className="highlight-green">الجيم</span>
         </h2>
@@ -263,8 +257,9 @@ const Home = () => {
       </section>
 
       {/* ======== SECTION 6: PRICING ======== */}
-      <section className="pricing-section content-section" ref={addToRefs}>
-        <h2 className="section-title">
+      <section className="pricing-section content-section" ref={addToRefs} style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '10vh', borderTop: '2px solid rgba(255,255,255,0.05)', width: '100%', maxWidth: '100%', margin: '0', padding: '5vh 20px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 className="section-title">
           أسعار <span className="highlight-green">الاشتراكات</span>
         </h2>
         <p className="section-text" style={{ marginBottom: '2rem' }}>
@@ -339,9 +334,9 @@ const Home = () => {
             تسجيل الدخول / تفعيل الحساب
           </button>
         </div>
+        </div>
       </section>
 
-      </div> {/* End of home-content-overlay */}
     </div>
   );
 };

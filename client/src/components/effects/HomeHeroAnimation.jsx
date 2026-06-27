@@ -2,13 +2,14 @@ import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './HomeHeroAnimation.css';
-import captinImage from '../../assets/captin ahmed taha.png';
+
+gsap.registerPlugin(ScrollTrigger);
+
+import captinImage from '../../assets/captin ahmed taha green.png';
 import imgCopy2 from '../../assets/image copy 2.png';
 import imgCopy3 from '../../assets/image copy 3.png';
 import imgCopy6 from '../../assets/image copy 6.png';
 import imgCopy7 from '../../assets/image copy 7.png';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeHeroAnimation() {
   const containerRef = useRef(null);
@@ -20,7 +21,7 @@ export default function HomeHeroAnimation() {
   const title1 = "INFINITY GYM";
   const title2 = "UNDER THE SUPERVISION OF CAPTAIN AHMED TAHA";
 
-// Images
+  // Images
   const mainImage = captinImage;
   const cornerImages = [
     imgCopy2,
@@ -35,9 +36,9 @@ export default function HomeHeroAnimation() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=100%", // animate while scrolling down 100vh
+          end: "+=300%", // pin for a long distance
           scrub: 1.5, // smooth scrubbing
-          pin: false, // CSS sticky handles the pinning
+          pin: true,
         }
       });
 

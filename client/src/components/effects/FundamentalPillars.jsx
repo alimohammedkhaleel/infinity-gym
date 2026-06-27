@@ -181,63 +181,7 @@ export default function FundamentalPillars({
   return (
     <div className="pillars-stack-container" ref={containerRef}>
       
-      {/* Airplane Intro Section BEFORE the cards */}
-      <div className="airplane-intro-section" ref={introRef} style={{ width: '100%', height: '80vh', position: 'relative' }}>
-        <svg className="pillar-airplane-svg" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
-          <defs>
-            <linearGradient id="trail-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#39ff14" stopOpacity="0" />
-              <stop offset="40%" stopColor="#39ff14" stopOpacity="0.6" />
-              <stop offset="70%" stopColor="#eab308" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#1e990c" stopOpacity="0.3" />
-            </linearGradient>
-
-            <linearGradient id="plane-left-wing" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#fef08a" />
-              <stop offset="50%" stopColor="#39ff14" />
-              <stop offset="100%" stopColor="#eab308" />
-            </linearGradient>
-
-            <linearGradient id="plane-right-wing" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#fde047" />
-              <stop offset="50%" stopColor="#eab308" />
-              <stop offset="100%" stopColor="#1e990c" />
-            </linearGradient>
-
-            <linearGradient id="plane-shadow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#a16207" />
-              <stop offset="100%" stopColor="#713f12" />
-            </linearGradient>
-            
-            <filter id="plane-drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="-2" dy="3" stdDeviation="2" floodColor="#000000" floodOpacity="0.4"/>
-            </filter>
-          </defs>
-
-          {/* Oval Loop Path - optimized for matrix target */}
-          <path 
-            ref={trailRef}
-            className="airplane-trail-path"
-            d="M 100 400 C 200 200, 400 150, 550 180 C 700 200, 800 300, 850 450 C 880 580, 800 700, 550 750 C 350 780, 150 700, 80 500 C 20 320, 80 200, 250 150 C 350 120, 450 140, 550 180" 
-            fill="none" 
-            stroke="url(#trail-gradient)" 
-            strokeWidth="4"
-            strokeLinecap="round"
-
-          />
-        </svg>
-
-        {/* Restored Original Paper Airplane Element */}
-        <div className="pillar-airplane" ref={airplaneRef}>
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-            <g filter="url(#plane-drop-shadow)">
-              <path d="M 85 50 L 15 45 L 15 55 Z" fill="url(#plane-shadow)" />
-              <path d="M 85 48 L 13 13 L 28 48 Z" fill="url(#plane-left-wing)" />
-              <path d="M 85 52 L 28 52 L 13 87 Z" fill="url(#plane-right-wing)" />
-            </g>
-          </svg>
-        </div>
-      </div>
+      {/* Airplane Intro Section removed as requested */}
 
       <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '4rem', paddingTop: '4rem', position: 'relative', zIndex: 10 }}>
         {title} <span className="highlight">{highlightText}</span>
