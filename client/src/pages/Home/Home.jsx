@@ -150,11 +150,11 @@ const Home = () => {
 
     // Small delay to ensure cards are rendered
     const timer = setTimeout(() => {
-
       // --- MatchMedia for Desktop ---
       mm.add("(min-width: 769px)", () => {
+        // Desktop: Pinned schedules, pricing slides up
+        gsap.set(pricingRef.current, { yPercent: 100 });
         
-        // 1. Schedule cards: 3D flip from side
         const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
         if (scheduleCards?.length) {
           gsap.fromTo(scheduleCards, 
@@ -170,9 +170,6 @@ const Home = () => {
           );
         }
 
-        // 2. Pricing Section: Pinned schedules, pricing slides up
-        gsap.set(pricingRef.current, { position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 10, yPercent: 100 });
-        
         const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
         if (pricingCards.length) {
           gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
@@ -214,17 +211,39 @@ const Home = () => {
 
       // --- MatchMedia for Mobile ---
       mm.add("(max-width: 768px)", () => {
-        // Mobile: Normal relative layout, NO scroll trigger for cards so they are completely visible immediately
-        gsap.set(pricingRef.current, { position: 'relative', yPercent: 0, zIndex: 1, clearProps: 'all' });
+        // Mobile: Normal relative layout, creative scroll triggers for cards
+        gsap.set(pricingRef.current, { yPercent: 0, clearProps: 'yPercent' });
         
-        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
-        if (pricingCards.length) {
-          gsap.set(pricingCards, { opacity: 1, y: 0, filter: 'blur(0px)', scale: 1, clearProps: 'all' });
-        }
-
+        // 1. Mobile Schedule Cards
         const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
         if (scheduleCards?.length) {
-          gsap.set(scheduleCards, { opacity: 1, rotateY: 0, scale: 1, clearProps: 'all' });
+          gsap.fromTo(scheduleCards, 
+            { opacity: 0, x: 50, rotation: 5 }, // from right to left in RTL
+            {
+              scrollTrigger: {
+                trigger: schedulesRef.current,
+                start: 'top 85%',
+                once: true
+              },
+              opacity: 1, x: 0, rotation: 0, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)'
+            }
+          );
+        }
+
+        // 2. Mobile Pricing Cards
+        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
+        if (pricingCards.length) {
+          gsap.fromTo(pricingCards, 
+            { opacity: 0, y: 60, scale: 0.9 },
+            {
+              scrollTrigger: {
+                trigger: pricingRef.current,
+                start: 'top 85%',
+                once: true
+              },
+              opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12, ease: 'back.out(1.5)'
+            }
+          );
         }
       });
     }, 300);
@@ -233,7 +252,7 @@ const Home = () => {
       clearTimeout(timer);
       mm.revert();
     };
-  }, [schedules, pricePlans]); // re-run after data loads so cards exist in DOM
+  }, [schedules, pricePlans]);
 
   const infiniteMenuItems = [
     { label: 'كارديو', image: imgCopy2 },
@@ -313,7 +332,7 @@ const Home = () => {
       </div>
 
       {/* ======== SECTION 5.5: SCHEDULES ======== */}
-      <section className="schedules-section content-section" ref={schedulesRef} dir="rtl" style={{ paddingBottom: '10vh', paddingTop: '10vh', position: 'relative', zIndex: 1, backgroundColor: 'var(--bg-color, #111)' }}>
+      <section className="schedules-section content-section" ref={schedulesRef} dir="rtl">
         <h2 className="section-title">
           مواعيد <span className="highlight-green">الجيم</span>
         </h2>
@@ -356,7 +375,7 @@ const Home = () => {
       </section>
 
       {/* ======== SECTION 6: PRICING ======== */}
-      <section className="pricing-section content-section" ref={pricingRef} style={{ position: 'relative', backgroundColor: 'var(--bg-color, #111)', borderTop: '2px solid rgba(57,255,20,0.2)', width: '100%', padding: '5vh 5vw', minHeight: '100vh', boxSizing: 'border-box' }}>
+      <section className="pricing-section content-section" ref={pricingRef} dir="rtl">
         <h2 className="section-title">
           أسعار <span className="highlight-green">الاشتراكات</span>
         </h2>
