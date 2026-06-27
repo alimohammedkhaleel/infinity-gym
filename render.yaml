@@ -1,0 +1,38 @@
+services:
+  # 1. Backend API (Node.js)
+  - type: web
+    name: infinity-gym-api
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
+      - key: DATABASE_URL
+        sync: false # Must be provided in the Render Dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: "https://infinity-gym.onrender.com" # Will be updated after frontend deploy
+      - key: ADMIN_EMAIL
+        value: "admin@infinitygym.com"
+      - key: ADMIN_PASSWORD
+        value: "Admin@123"
+
+  # 2. Frontend (React + Vite)
+  - type: web
+    name: infinity-gym-client
+    env: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: "https://infinity-gym-api.onrender.com/api" # URL of the backend service
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
