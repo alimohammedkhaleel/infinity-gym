@@ -3,11 +3,13 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// If a DATABASE_URL is provided (typical in production platforms like Render/Railway), use it.
-// Otherwise, fall back to individual variables for local development (XAMPP).
+// If a DATABASE_URL is provided (typical in production platforms like Render/Netlify), use it.
+// Dynamically detect dialect based on connection string (Netlify Database uses Postgres)
+const isPostgres = process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('postgres');
+
 const sequelize = process.env.DATABASE_URL 
   ? new Sequelize(process.env.DATABASE_URL, {
-      dialect: 'mysql',
+      dialect: isPostgres ? 'postgres' : 'mysql',
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
       dialectOptions: {
         // Some managed databases require SSL
