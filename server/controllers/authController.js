@@ -8,9 +8,8 @@ const crypto = require('crypto');
 // Uses MAX(id) + random suffix instead of COUNT to avoid duplicate IDs
 // under concurrent registrations.
 const generateGymId = async () => {
-  const sequelize = require('../config/database');
-  const [rows] = await sequelize.query('SELECT MAX(id) as maxId FROM users');
-  const nextNum = (rows[0]?.maxId ?? 0) + 1;
+  const maxId = await User.max('id');
+  const nextNum = (maxId ?? 0) + 1;
   // Add a short random hex suffix to guarantee uniqueness even on collision
   const suffix = crypto.randomBytes(2).toString('hex').toUpperCase();
   return `GYM-${String(nextNum).padStart(4, '0')}-${suffix}`;

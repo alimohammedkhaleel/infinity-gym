@@ -12,8 +12,11 @@ const sequelize = process.env.DATABASE_URL
       dialect: isPostgres ? 'postgres' : 'mysql',
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
       dialectOptions: {
-        // Some managed databases require SSL
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+        // Neon / Render databases require SSL
+        ssl: isPostgres ? {
+          require: true,
+          rejectUnauthorized: false
+        } : false
       },
       pool: {
         max: 5,

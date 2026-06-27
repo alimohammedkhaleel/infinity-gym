@@ -101,10 +101,10 @@ const startServer = async () => {
 
     // 2. Test DB connection
     await sequelize.authenticate();
-    console.log('✅ Database connected (MySQL).');
+    console.log('✅ Database connected.');
 
     // 3. Sync tables
-    const [results] = await sequelize.query('SHOW TABLES');
+    const results = await sequelize.getQueryInterface().showAllTables();
     if (results.length === 0) {
       await sequelize.sync({ force: true });
       console.log('✅ Database tables created (first run).');
