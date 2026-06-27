@@ -26,27 +26,11 @@
   box-sizing: border-box;
 }
 
-/* ==================== CARD ANIMATIONS ==================== */
-@keyframes cardFlipIn {
-  0%   { opacity: 0; transform: perspective(600px) rotateY(-90deg) scale(0.8); }
-  60%  { transform: perspective(600px) rotateY(10deg) scale(1.02); }
-  100% { opacity: 1; transform: perspective(600px) rotateY(0deg) scale(1); }
-}
-
-@keyframes pricingCardRise {
-  0%   { opacity: 0; transform: translateY(60px) scale(0.88); filter: blur(4px); }
-  70%  { transform: translateY(-6px) scale(1.02); filter: blur(0); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-
-.schedule-card-animate {
-  opacity: 0;
-  animation: cardFlipIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
+/* ==================== CARD ANIMATIONS (controlled by GSAP ScrollTrigger) ==================== */
+/* Classes are used as selectors by GSAP — no CSS animation needed here */
+.schedule-card-animate,
 .pricing-card-animate {
-  opacity: 0;
-  animation: pricingCardRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity, filter;
 }
 
 .card-fan-section-wrapper {
