@@ -217,125 +217,128 @@ const Home = () => {
         <FundamentalPillars />
       </div>
 
-      {/* ======== SECTION 5.5: SCHEDULES ======== */}
-      <section className="schedules-section content-section" ref={addToRefs} dir="rtl" style={{ position: 'sticky', bottom: '0', zIndex: 1, paddingBottom: '10vh', paddingTop: '5vh' }}>
-        <h2 className="section-title">
-          مواعيد <span className="highlight-green">الجيم</span>
-        </h2>
-        <p className="section-text" style={{ marginBottom: '2rem' }}>
-          تعرف على أوقات العمل المخصصة لكل من الرجال والسيدات.
-        </p>
-        <div className="pricing-gender-toggle">
-          <button
-            className={`pricing-toggle-btn ${scheduleGender === 'male' ? 'active' : ''}`}
-            onClick={() => setScheduleGender('male')}
-          >
-            👨 رجال
-          </button>
-          <button
-            className={`pricing-toggle-btn ${scheduleGender === 'female' ? 'active' : ''}`}
-            onClick={() => setScheduleGender('female')}
-          >
-            👩 سيدات
-          </button>
-        </div>
-        <div className="schedules-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', marginTop: '2rem' }}>
-          {schedules.filter(s => s.gender === scheduleGender).map((sched) => (
-            <div key={sched.id} className="pt-card" style={{ padding: '1.5rem', minWidth: '250px' }}>
-              <h3 style={{ color: 'var(--accent)', marginBottom: '0.5rem', fontSize: '1.3rem' }}>{sched.label || 'ميعاد'}</h3>
-              <p style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{sched.day_group}</p>
-              <div style={{ marginTop: '1rem', background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px' }}>
-                <div style={{ color: 'var(--text-muted)' }}>من: <span style={{ color: 'white' }}>{sched.time_from}</span></div>
-                <div style={{ color: 'var(--text-muted)', marginTop: '5px' }}>إلى: <span style={{ color: 'white' }}>{sched.time_to}</span></div>
-              </div>
-            </div>
-          ))}
-          {schedules.filter(s => s.gender === scheduleGender).length === 0 && (
-            <p style={{ color: 'var(--text-muted)' }}>لا توجد مواعيد مضافة حالياً.</p>
-          )}
-        </div>
-      </section>
-
-      {/* ======== SECTION 6: PRICING ======== */}
-      <section className="pricing-section content-section" ref={addToRefs} style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '10vh', borderTop: '2px solid rgba(255,255,255,0.05)', width: '100%', maxWidth: '100%', margin: '0', padding: '5vh 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      {/* ======== FOOTER PARALLAX WRAPPER ======== */}
+      <div className="footer-parallax-wrapper" style={{ position: 'relative', width: '100%' }}>
+        {/* ======== SECTION 5.5: SCHEDULES ======== */}
+        <section className="schedules-section content-section" ref={addToRefs} dir="rtl" style={{ position: 'sticky', bottom: '0', zIndex: 1, paddingBottom: '10vh', paddingTop: '5vh' }}>
           <h2 className="section-title">
-          أسعار <span className="highlight-green">الاشتراكات</span>
-        </h2>
-        <p className="section-text" style={{ marginBottom: '2rem' }}>
-          اختر الباقة المناسبة لك. جميع الباقات تشمل الوصول الكامل لكل أجهزة الجيم.
-        </p>
-
-        {/* Gender Toggle */}
-        <div className="pricing-gender-toggle">
-          <button
-            className={`pricing-toggle-btn ${pricingGender === 'male' ? 'active' : ''}`}
-            onClick={() => setPricingGender('male')}
-          >
-            👨 رجال
-          </button>
-          <button
-            className={`pricing-toggle-btn ${pricingGender === 'female' ? 'active' : ''}`}
-            onClick={() => setPricingGender('female')}
-          >
-            👩 سيدات
-          </button>
-        </div>
-
-        {priceLoading ? (
-          <div className="pricing-loading">
-            <div className="pricing-spinner" />
-            <p>جاري تحميل الأسعار...</p>
+            مواعيد <span className="highlight-green">الجيم</span>
+          </h2>
+          <p className="section-text" style={{ marginBottom: '2rem' }}>
+            تعرف على أوقات العمل المخصصة لكل من الرجال والسيدات.
+          </p>
+          <div className="pricing-gender-toggle">
+            <button
+              className={`pricing-toggle-btn ${scheduleGender === 'male' ? 'active' : ''}`}
+              onClick={() => setScheduleGender('male')}
+            >
+              👨 رجال
+            </button>
+            <button
+              className={`pricing-toggle-btn ${scheduleGender === 'female' ? 'active' : ''}`}
+              onClick={() => setScheduleGender('female')}
+            >
+              👩 سيدات
+            </button>
           </div>
-        ) : (
-          <>
-            {/* Subscription Plans */}
-            <div className="pricing-grid">
-              {pricePlans.map((plan, i) => {
-                const price = pricingGender === 'male' ? plan.price_male : plan.price_female;
-                const isPopular = plan.duration_months === 3;
-                return (
-                  <div key={plan.id} className={`pricing-card ${isPopular ? 'pricing-card-popular' : ''}`}>
-                    {isPopular && <div className="pricing-popular-badge">الأكثر طلباً ⭐</div>}
-                    <div className="pricing-duration">{plan.label}</div>
-                    <div className="pricing-price">
-                      <span className="pricing-amount">{Number(price).toLocaleString('ar-EG')}</span>
-                      <span className="pricing-currency">ج.م</span>
-                    </div>
-                    <div className="pricing-per-month">
-                      {plan.duration_months > 1 && (
-                        <span>{Math.round(price / plan.duration_months).toLocaleString('ar-EG')} ج.م / شهر</span>
-                      )}
-                    </div>
-                    <ul className="pricing-features">
-                      <li>✅ وصول كامل للجيم</li>
-                      <li>✅ تتبع InBody</li>
-                      <li>✅ كود دخول QR</li>
-                      {plan.duration_months >= 3 && <li>✅ إمكانية تجميد الاشتراك</li>}
-                    </ul>
-                    <button
-                      className={isPopular ? 'btn-primary pricing-cta' : 'btn-outline pricing-cta'}
-                      onClick={() => navigate('/register')}
-                    >
-                      اشترك الآن
-                    </button>
-                  </div>
-                );
-              })}
+          <div className="schedules-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', marginTop: '2rem' }}>
+            {schedules.filter(s => s.gender === scheduleGender).map((sched) => (
+              <div key={sched.id} className="pt-card" style={{ padding: '1.5rem', minWidth: '250px' }}>
+                <h3 style={{ color: 'var(--accent)', marginBottom: '0.5rem', fontSize: '1.3rem' }}>{sched.label || 'ميعاد'}</h3>
+                <p style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{sched.day_group}</p>
+                <div style={{ marginTop: '1rem', background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px' }}>
+                  <div style={{ color: 'var(--text-muted)' }}>من: <span style={{ color: 'white' }}>{sched.time_from}</span></div>
+                  <div style={{ color: 'var(--text-muted)', marginTop: '5px' }}>إلى: <span style={{ color: 'white' }}>{sched.time_to}</span></div>
+                </div>
+              </div>
+            ))}
+            {schedules.filter(s => s.gender === scheduleGender).length === 0 && (
+              <p style={{ color: 'var(--text-muted)' }}>لا توجد مواعيد مضافة حالياً.</p>
+            )}
+          </div>
+        </section>
+
+        {/* ======== SECTION 6: PRICING ======== */}
+        <section className="pricing-section content-section" ref={addToRefs} style={{ position: 'relative', zIndex: 2, backgroundColor: 'var(--bg-color, #111)', paddingBottom: '10vh', borderTop: '2px solid rgba(255,255,255,0.05)', width: '100%', maxWidth: '100%', margin: '0', padding: '5vh 20px' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <h2 className="section-title">
+            أسعار <span className="highlight-green">الاشتراكات</span>
+          </h2>
+          <p className="section-text" style={{ marginBottom: '2rem' }}>
+            اختر الباقة المناسبة لك. جميع الباقات تشمل الوصول الكامل لكل أجهزة الجيم.
+          </p>
+
+          {/* Gender Toggle */}
+          <div className="pricing-gender-toggle">
+            <button
+              className={`pricing-toggle-btn ${pricingGender === 'male' ? 'active' : ''}`}
+              onClick={() => setPricingGender('male')}
+            >
+              👨 رجال
+            </button>
+            <button
+              className={`pricing-toggle-btn ${pricingGender === 'female' ? 'active' : ''}`}
+              onClick={() => setPricingGender('female')}
+            >
+              👩 سيدات
+            </button>
+          </div>
+
+          {priceLoading ? (
+            <div className="pricing-loading">
+              <div className="pricing-spinner" />
+              <p>جاري تحميل الأسعار...</p>
             </div>
+          ) : (
+            <>
+              {/* Subscription Plans */}
+              <div className="pricing-grid">
+                {pricePlans.map((plan, i) => {
+                  const price = pricingGender === 'male' ? plan.price_male : plan.price_female;
+                  const isPopular = plan.duration_months === 3;
+                  return (
+                    <div key={plan.id} className={`pricing-card ${isPopular ? 'pricing-card-popular' : ''}`}>
+                      {isPopular && <div className="pricing-popular-badge">الأكثر طلباً ⭐</div>}
+                      <div className="pricing-duration">{plan.label}</div>
+                      <div className="pricing-price">
+                        <span className="pricing-amount">{Number(price).toLocaleString('ar-EG')}</span>
+                        <span className="pricing-currency">ج.م</span>
+                      </div>
+                      <div className="pricing-per-month">
+                        {plan.duration_months > 1 && (
+                          <span>{Math.round(price / plan.duration_months).toLocaleString('ar-EG')} ج.م / شهر</span>
+                        )}
+                      </div>
+                      <ul className="pricing-features">
+                        <li>✅ وصول كامل للجيم</li>
+                        <li>✅ تتبع InBody</li>
+                        <li>✅ كود دخول QR</li>
+                        {plan.duration_months >= 3 && <li>✅ إمكانية تجميد الاشتراك</li>}
+                      </ul>
+                      <button
+                        className={isPopular ? 'btn-primary pricing-cta' : 'btn-outline pricing-cta'}
+                        onClick={() => navigate('/register')}
+                      >
+                        اشترك الآن
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
 
 
-          </>
-        )}
+            </>
+          )}
 
-        <div className="pricing-cta-box">
-          <p>مشترك قديم؟ سجّل بياناتك وفعّل حسابك بسهولة</p>
-          <button className="btn-outline" onClick={() => navigate('/login')}>
-            تسجيل الدخول / تفعيل الحساب
-          </button>
-        </div>
-        </div>
-      </section>
+          <div className="pricing-cta-box">
+            <p>مشترك قديم؟ سجّل بياناتك وفعّل حسابك بسهولة</p>
+            <button className="btn-outline" onClick={() => navigate('/login')}>
+              تسجيل الدخول / تفعيل الحساب
+            </button>
+          </div>
+          </div>
+        </section>
+      </div>
 
     </div>
   );
