@@ -1,13 +1,8 @@
 {
-  "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://infinity-gym-nu.vercel.app/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/api/:path*",
+      "destination": "https://infinity-gym-1v.vercel.app/api/:path*"
     }
   ]
 }
