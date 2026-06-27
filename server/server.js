@@ -93,6 +93,8 @@ const { initWhatsApp } = require('./services/whatsappService');
 const { initCronJobs } = require('./services/cronService');
 
 // ==================== Start Server (NCT System pattern) ====================
+const isVercel = !!process.env.VERCEL;
+
 const startServer = async () => {
   try {
     // 1. Define associations BEFORE sync
@@ -117,18 +119,28 @@ const startServer = async () => {
     await seedDatabase();
 
     // 5. Start background services
-    initWhatsApp();
-    initCronJobs();
+    if (!isVercel) {
+      initWhatsApp();
+      initCronJobs();
+    } else {
+      console.log('ℹ️ Vercel serverless environment detected — background services (WhatsApp/Cron) disabled on startup.');
+    }
 
-    // 6. Start API Server
-    app.listen(PORT, () => {
-      console.log(`🚀 Infinity Gym Server running on port ${PORT}`);
-      console.log(`🌐 Client: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
-      console.log(`📊 Admin: admin@infinitygym.com / Admin@123`);
-    });
+    // 6. Start API Server (only if not on Vercel, Vercel wraps the app export)
+    if (!isVercel) {
+      app.listen(PORT, () => {
+        console.log(`🚀 Infinity Gym Server running on port ${PORT}`);
+        console.log(`🌐 Client: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+        console.log(`📊 Admin: admin@infinitygym.com / Admin@123`);
+      });
+    }
   } catch (error) {
     console.error('❌ Server start failed:', error.message);
-    process.exit(1);
+    if (!isVercel) {
+      process.exit(1);
+    } else {
+      console.log('ℹ️ Running in Vercel environment. Keeping process alive despite DB/sync failure to expose logs.');
+    }
   }
 };
 
