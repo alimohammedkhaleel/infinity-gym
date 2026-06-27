@@ -370,6 +370,16 @@
   .services-page .services-container {
     padding: 0 1.5rem;
   }
+  .hero-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  .hero-metrics {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   .services-page .service-card {
     flex-direction: column;
     gap: 1.5rem;

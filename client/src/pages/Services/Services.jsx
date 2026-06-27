@@ -272,34 +272,6 @@ const Services = () => {
           />
         </div>
 
-      {/* ======== CORE PHILOSOPHY ======== */}
-      <section className="content-section core-philosophy-section">
-        <h2 className="section-title">هيكلة الخدمات: <span className="highlight-green">إدارة متكاملة، وصول لا محدود</span></h2>
-        <p className="section-text">
-          نظام الخدمات المُدار لدينا مصمم لتلبية كافة احتياجاتك في مكان واحد. بفضل خبرة وتنوع <strong>المدربين المعتمدين</strong>، <strong>أخصائيي التغذية</strong>، و<strong>أحدث الأجهزة</strong>، نقوم بتوفير كل ما تحتاجه للنجاح.
-        </p>
-        <div className="topology-diagram">
-          <div className="topo-hub">
-            <span>التدريب والمتابعة الشاملة</span>
-            <small>(Infinity Gym)</small>
-          </div>
-          <div className="topo-spokes">
-            <div className="topo-spoke">
-              <span>برامج مخصصة</span>
-              <small>(تغذية وتدريب)</small>
-            </div>
-            <div className="topo-spoke">
-              <span>قياس وتحليل</span>
-              <small>(InBody)</small>
-            </div>
-            <div className="topo-spoke">
-              <span>متابعة مستمرة</span>
-              <small>(مدربون معتمدون)</small>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ======== SECTION 4: SCROLLING IMAGES WITH STICKY NUMBER ======== */}
       <div ref={addToRefs} dir="ltr">
         <ImagesArcAnimation />
