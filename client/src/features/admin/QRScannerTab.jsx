@@ -49,11 +49,18 @@ const QRScannerTab = ({ showMsg }) => {
     try {
       let rawJson = text.trim();
 
-      // If it looks like a URL, extract the ?q= base64 param
-      if (rawJson.startsWith('http://') || rawJson.startsWith('https://')) {
+      // If it contains the query parameter 'q', parse it (supports absolute and relative URLs)
+      if (rawJson.includes('q=')) {
         try {
-          const url = new URL(rawJson);
-          const b64 = url.searchParams.get('q');
+          let urlObj;
+          if (rawJson.startsWith('http://') || rawJson.startsWith('https://')) {
+            urlObj = new URL(rawJson);
+          } else {
+            // Prepend dummy host to parse relative paths like "/scan?q=..." safely
+            urlObj = new URL(rawJson, 'https://dummy.com');
+          }
+
+          const b64 = urlObj.searchParams.get('q');
           if (!b64) {
             throw new Error('الرابط لا يحتوي على معلمة البيانات (q)');
           }
