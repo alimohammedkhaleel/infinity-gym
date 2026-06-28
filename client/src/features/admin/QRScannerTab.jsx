@@ -163,7 +163,7 @@ const QRScannerTab = ({ showMsg }) => {
         <div id="admin-qr-reader" ref={scannerRef} style={{ width: '100%', maxWidth: 350, margin: '0 auto', borderRadius: 12, overflow: 'hidden' }} />
 
         {!scanning && (
-          <div className="qr-scanner-placeholder" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 0' }}>
+          <div className="qr-scanner-placeholder" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontSize: 64 }}>📷</span>
             <p style={{ color: '#aaa', marginTop: '1rem', textAlign: 'center', fontSize: '1.1rem' }}>اضغط لتشغيل الكاميرا ومسح كود العضو</p>
           </div>
