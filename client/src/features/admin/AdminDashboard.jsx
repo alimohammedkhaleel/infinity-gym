@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './AdminDashboard.css';
+import QRScannerTab from './QRScannerTab';
 
 const API = '/api/admin';
 const getToken = () => localStorage.getItem('gym_token') || localStorage.getItem('token');
@@ -87,6 +88,7 @@ const AdminDashboard = () => {
 
   const tabs = [
     { id: 'members',    icon: '👥', label: 'الأعضاء' },
+    { id: 'scanner',    icon: '📷', label: 'ماسح QR' },
     { id: 'migrations', icon: '🔄', label: 'هجرة المشتركين' },
     { id: 'prices',     icon: '💰', label: 'الأسعار' },
     { id: 'classes',    icon: '🏋️', label: 'الكلاسات' },
@@ -153,6 +155,7 @@ const AdminDashboard = () => {
             transition={{ duration: 0.25 }}
           >
             {activeTab === 'members'    && <MembersTab    showMsg={showMsg} />}
+            {activeTab === 'scanner'    && <QRScannerTab  showMsg={showMsg} />}
             {activeTab === 'migrations' && <MigrationTab  showMsg={showMsg} />}
             {activeTab === 'prices'     && <PricesTab     showMsg={showMsg} />}
             {activeTab === 'classes'    && <ClassesTab    showMsg={showMsg} />}
