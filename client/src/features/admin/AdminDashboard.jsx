@@ -320,11 +320,11 @@ const MembersTab = ({ showMsg }) => {
           <tbody>
             {filtered.map(m => (
               <tr key={m.id}>
-                <td><strong>{m.full_name}</strong></td>
-                <td><code>{m.gym_id}</code></td>
-                <td dir="ltr">{m.phone}</td>
-                <td>{m.gender === 'male' ? '👨 رجال' : '👩 سيدات'}</td>
-                <td>
+                <td data-label="الاسم"><strong>{m.full_name}</strong></td>
+                <td data-label="Gym ID"><code>{m.gym_id}</code></td>
+                <td data-label="الهاتف" dir="ltr">{m.phone}</td>
+                <td data-label="النوع">{m.gender === 'male' ? '👨 رجال' : '👩 سيدات'}</td>
+                <td data-label="الحالة">
                   <span className={`status-badge status-${m.status}`}>
                     {m.status === 'active' ? '🟢 نشط' :
                      m.status === 'inactive' ? '⚪ غير نشط' :
@@ -332,8 +332,8 @@ const MembersTab = ({ showMsg }) => {
                      m.status === 'expired' ? '🔴 منتهي' : m.status}
                   </span>
                 </td>
-                <td>{m.subscription_end ? new Date(m.subscription_end).toLocaleDateString('ar-EG') : '—'}</td>
-                <td style={{ display: 'flex', gap: '0.5rem' }}>
+                <td data-label="انتهاء الاشتراك">{m.subscription_end ? new Date(m.subscription_end).toLocaleDateString('ar-EG') : '—'}</td>
+                <td data-label="إجراءات" style={{ display: 'flex', gap: '0.5rem' }}>
                   <button className="btn-sm btn-green" onClick={() => openActivateModal(m)}>تفعيل / تمديد</button>
                   <button className="btn-sm" style={{ background: '#0dcaf0', color: '#000', border: 'none' }} onClick={() => openInbody(m)}>⚖️ InBody</button>
                 </td>
@@ -483,11 +483,11 @@ const MembersTab = ({ showMsg }) => {
                     <tbody>
                       {inbodyHistory.map(h => (
                         <tr key={h.id}>
-                          <td>{new Date(h.test_date).toLocaleDateString('ar-EG')}</td>
-                          <td>{h.weight} kg</td>
-                          <td>{h.skeletal_muscle_mass} kg</td>
-                          <td>{h.body_fat_percentage}%</td>
-                          <td><button className="btn-sm btn-red" onClick={() => deleteInbody(h.id)}>🗑️</button></td>
+                          <td data-label="التاريخ">{new Date(h.test_date).toLocaleDateString('ar-EG')}</td>
+                          <td data-label="الوزن">{h.weight} kg</td>
+                          <td data-label="العضلات">{h.skeletal_muscle_mass} kg</td>
+                          <td data-label="الدهون %">{h.body_fat_percentage}%</td>
+                          <td data-label="إجراء"><button className="btn-sm btn-red" onClick={() => deleteInbody(h.id)}>🗑️</button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -639,7 +639,7 @@ const MigrationTab = ({ showMsg }) => {
                     🔑 كلمة المرور: اختارها بنفسه عند التسجيل
                   </span>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                <div data-label="إجراء" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
                   <button
                     className="btn-sm"
                     style={{ background: '#25d366', color: '#fff', border: 'none' }}
@@ -718,11 +718,11 @@ const PricesTab = ({ showMsg }) => {
           <tbody>
             {plans.map(p => (
               <tr key={p.id}>
-                <td><strong>{p.label}</strong></td>
-                <td>{p.duration_months}</td>
-                <td className="price-cell">{p.price_male?.toLocaleString()} ج.م</td>
-                <td className="price-cell">{p.price_female?.toLocaleString()} ج.م</td>
-                <td>
+                <td data-label="المدة"><strong>{p.label}</strong></td>
+                <td data-label="الشهور">{p.duration_months}</td>
+                <td data-label="سعر رجال" className="price-cell">{p.price_male?.toLocaleString()} ج.م</td>
+                <td data-label="سعر سيدات" className="price-cell">{p.price_female?.toLocaleString()} ج.م</td>
+                <td data-label="إجراءات">
                   <button className="btn-sm btn-blue" onClick={() => openEdit(p)}>✏️ تعديل</button>
                   <button className="btn-sm btn-red" onClick={() => remove(p.id)}>🗑️</button>
                 </td>
@@ -897,11 +897,11 @@ const SchedulesTab = ({ showMsg }) => {
           <tbody>
             {items.map(s => (
               <tr key={s.id}>
-                <td>{s.day_group}</td>
-                <td dir="ltr">{s.time_from}</td>
-                <td dir="ltr">{s.time_to}</td>
-                <td>{s.label}</td>
-                <td>
+                <td data-label="الأيام">{s.day_group}</td>
+                <td data-label="من" dir="ltr">{s.time_from}</td>
+                <td data-label="إلى" dir="ltr">{s.time_to}</td>
+                <td data-label="الفترة">{s.label}</td>
+                <td data-label="إجراءات">
                   <button className="btn-sm btn-blue" onClick={() => openEdit(s)}>✏️</button>
                   <button className="btn-sm btn-red" onClick={() => remove(s.id)}>🗑️</button>
                 </td>

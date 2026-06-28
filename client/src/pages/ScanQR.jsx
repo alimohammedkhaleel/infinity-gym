@@ -17,8 +17,16 @@ const ScanQR = () => {
           throw new Error('لم يتم العثور على بيانات في الرابط');
         }
 
+        let normalizedB64 = decodeURIComponent(qParam).trim()
+          .replace(/-/g, '+')
+          .replace(/_/g, '/');
+        
+        while (normalizedB64.length % 4 !== 0) {
+          normalizedB64 += '=';
+        }
+
         // Decode Base64 string
-        const jsonString = atob(decodeURIComponent(qParam));
+        const jsonString = atob(normalizedB64);
         
         // Ensure token exists to authenticate the request
         const token = localStorage.getItem('gym_token');

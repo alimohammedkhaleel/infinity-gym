@@ -47,20 +47,47 @@ const QRScannerTab = ({ showMsg }) => {
   // ── decode QR text — could be URL with ?q= param or raw JSON ─────────────
   const handleDecoded = useCallback((text) => {
     try {
-      let rawJson = text;
+      let rawJson = text.trim();
 
       // If it looks like a URL, extract the ?q= base64 param
-      if (text.startsWith('http')) {
-        const url   = new URL(text);
-        const b64   = url.searchParams.get('q');
-        if (b64) rawJson = atob(decodeURIComponent(b64));
+      if (rawJson.startsWith('http://') || rawJson.startsWith('https://')) {
+        try {
+          const url = new URL(rawJson);
+          const b64 = url.searchParams.get('q');
+          if (!b64) {
+            throw new Error('الرابط لا يحتوي على معلمة البيانات (q)');
+          }
+          
+          let normalizedB64 = decodeURIComponent(b64).trim()
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+          
+          while (normalizedB64.length % 4 !== 0) {
+            normalizedB64 += '=';
+          }
+          
+          rawJson = atob(normalizedB64);
+        } catch (e) {
+          throw new Error('فشل قراءة رابط الـ QR: ' + e.message);
+        }
       }
 
       // Validate it's proper JSON before sending
-      JSON.parse(rawJson);
+      let parsed;
+      try {
+        parsed = JSON.parse(rawJson);
+      } catch (e) {
+        throw new Error('محتوى الـ QR ليس بتنسيق JSON صالح');
+      }
+
+      if (!parsed.user_id || !parsed.gym_id || !parsed.token) {
+        throw new Error('بيانات العضو ناقصة أو غير مكتملة في الـ QR');
+      }
+
       verify(rawJson);
-    } catch {
-      setError('⛔ بيانات QR غير صالحة');
+    } catch (e) {
+      console.error('QR Decode error:', e);
+      setError('⛔ ' + e.message);
     }
   }, [verify]);
 
