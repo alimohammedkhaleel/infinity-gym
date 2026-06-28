@@ -52,8 +52,8 @@ exports.activateMember = async (req, res) => {
       await Payment.create({
         user_id: id,
         amount_paid: parseFloat(amount_paid),
-        expected_price: req.body.expected_price || null,
-        payment_type: 'subscription',
+        expected_amount: req.body.expected_price || null,
+        payment_type: 'activation',
         duration_months: parseInt(duration_months),
         notes: `تفعيل/تمديد اشتراك — ${subscription_type}`,
         payment_date: new Date()
