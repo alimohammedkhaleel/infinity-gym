@@ -10,6 +10,9 @@ router.get('/stats', admin.getStats);
 // ---- Members ----
 router.get('/members', protect, adminOnly, admin.getMembers);
 router.put('/members/:id/activate', protect, adminOnly, admin.activateMember);
+router.put('/members/:id/freeze', protect, adminOnly, admin.freezeMember);
+router.put('/members/:id/unfreeze', protect, adminOnly, admin.unfreezeMember);
+router.delete('/members/:id', protect, adminOnly, admin.deleteMember);
 
 // ---- Migration ----
 router.post('/migration/token', protect, adminOnly, admin.generateMigrationToken);

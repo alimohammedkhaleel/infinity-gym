@@ -9,6 +9,7 @@ const PricePlan = require('../models/PricePlan');
 const Schedule = require('../models/Schedule');
 const PersonalTraining = require('../models/PersonalTraining');
 const InBody = require('../models/InBody');
+const Payment = require('../models/Payment');
 
 // ==================== Define Associations ====================
 const defineAssociations = () => {
@@ -27,6 +28,14 @@ const defineAssociations = () => {
   // User -> InBody
   User.hasMany(InBody, { foreignKey: 'user_id', as: 'inbody_records', onDelete: 'CASCADE' });
   InBody.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+
+  // User -> Payments
+  User.hasMany(Payment, { foreignKey: 'user_id', as: 'payments', onDelete: 'CASCADE' });
+  Payment.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+  
+  // Admin -> Payments (recorded_by)
+  User.hasMany(Payment, { foreignKey: 'recorded_by', as: 'recorded_payments', onDelete: 'SET NULL' });
+  Payment.belongsTo(User, { foreignKey: 'recorded_by', as: 'admin' });
 };
 
 // ==================== Export ====================
@@ -40,5 +49,6 @@ module.exports = {
   Schedule,
   PersonalTraining,
   InBody,
+  Payment,
   defineAssociations
 };

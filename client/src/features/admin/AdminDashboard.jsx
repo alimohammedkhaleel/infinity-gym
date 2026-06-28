@@ -123,8 +123,8 @@ const AdminDashboard = () => {
               <span className="admin-stat-lbl">كلاسات</span>
             </div>
             <div className="admin-stat-item">
-              <span className="admin-stat-num">{stats.weeklySchedules}</span>
-              <span className="admin-stat-lbl">مواعيد أسبوعية</span>
+              <span className="admin-stat-num" style={{ color: '#ffb347' }}>{stats.totalRevenue ? Number(stats.totalRevenue).toLocaleString('ar-EG') : 0} ج.م</span>
+              <span className="admin-stat-lbl">الإيرادات</span>
             </div>
           </div>
         )}
@@ -176,6 +176,8 @@ const MembersTab = ({ showMsg }) => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [activateModal, setActivateModal] = useState(null);
+  const [freezeModal, setFreezeModal] = useState(null);
+  const [freezeDays, setFreezeDays] = useState(7);
   const [inbodyModal, setInbodyModal] = useState(null);
   const [inbodyHistory, setInbodyHistory] = useState([]);
   const [inbodyForm, setInbodyForm] = useState({});
@@ -283,6 +285,34 @@ const MembersTab = ({ showMsg }) => {
     } catch (e) { showMsg(e.message, 'error'); }
   };
 
+  const handleFreeze = async () => {
+    try {
+      await api('PUT', `/members/${freezeModal.id}/freeze`, { duration_days: freezeDays });
+      showMsg(`✅ تم تجميد اشتراك ${freezeModal.full_name} بنجاح`);
+      setFreezeModal(null);
+      load();
+    } catch (e) { showMsg(e.message, 'error'); }
+  };
+
+  const handleUnfreeze = async (member) => {
+    if(!window.confirm(`هل أنت متأكد من تفعيل اشتراك ${member.full_name}؟`)) return;
+    try {
+      await api('PUT', `/members/${member.id}/unfreeze`);
+      showMsg(`✅ تم تفعيل اشتراك ${member.full_name} بنجاح`);
+      load();
+    } catch (e) { showMsg(e.message, 'error'); }
+  };
+
+  const handleDelete = async (member) => {
+    if(!window.confirm(`هل أنت متأكد من حذف ${member.full_name} نهائياً؟`)) return;
+    try {
+      await api('DELETE', `/members/${member.id}`);
+      showMsg('🗑️ تم حذف المستخدم بنجاح');
+      load();
+    } catch (e) { showMsg(e.message, 'error'); }
+  };
+
+
   const filtered = members.filter(m =>
     (m.full_name || '').toLowerCase().includes(search.toLowerCase()) ||
     (m.gym_id || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -333,9 +363,12 @@ const MembersTab = ({ showMsg }) => {
                   </span>
                 </td>
                 <td data-label="انتهاء الاشتراك">{m.subscription_end ? new Date(m.subscription_end).toLocaleDateString('ar-EG') : '—'}</td>
-                <td data-label="إجراءات" style={{ display: 'flex', gap: '0.5rem' }}>
+                <td data-label="إجراءات" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <button className="btn-sm btn-green" onClick={() => openActivateModal(m)}>تفعيل / تمديد</button>
                   <button className="btn-sm" style={{ background: '#0dcaf0', color: '#000', border: 'none' }} onClick={() => openInbody(m)}>⚖️ InBody</button>
+                  {m.status === 'active' && <button className="btn-sm" style={{ background: '#6c757d', color: '#fff', border: 'none' }} onClick={() => setFreezeModal(m)}>❄️ تجميد</button>}
+                  {m.status === 'frozen' && <button className="btn-sm" style={{ background: '#ffc107', color: '#000', border: 'none' }} onClick={() => handleUnfreeze(m)}>🔥 فك التجميد</button>}
+                  <button className="btn-sm" style={{ background: '#dc3545', color: '#fff', border: 'none' }} onClick={() => handleDelete(m)}>🗑️ حذف</button>
                 </td>
               </tr>
             ))}
@@ -437,6 +470,22 @@ const MembersTab = ({ showMsg }) => {
               />
 
               <button className="btn-primary full-btn" onClick={handleActivate}>✅ تأكيد التفعيل</button>
+            </div>
+          </Modal>
+        )}
+
+        {freezeModal && (
+          <Modal title={`تجميد اشتراك: ${freezeModal.full_name}`} onClose={() => setFreezeModal(null)}>
+            <div className="modal-form">
+              <label>مدة التجميد (بالأيام)</label>
+              <input
+                type="number"
+                min="1"
+                value={freezeDays}
+                onChange={e => setFreezeDays(parseInt(e.target.value) || 0)}
+                placeholder="أدخل عدد الأيام"
+              />
+              <button className="btn-primary full-btn" style={{ background: '#6c757d' }} onClick={handleFreeze}>❄️ تأكيد التجميد</button>
             </div>
           </Modal>
         )}

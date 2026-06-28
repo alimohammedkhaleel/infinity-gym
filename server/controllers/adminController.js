@@ -1,4 +1,4 @@
-const { User, Referral, GymClass, PricePlan, Schedule, PersonalTraining, InBody } = require('../config/models');
+const { User, Referral, GymClass, PricePlan, Schedule, PersonalTraining, InBody, Payment } = require('../config/models');
 const { Op } = require('sequelize');
 const sequelize = require('../config/database');
 const jwt = require('jsonwebtoken');
@@ -47,6 +47,19 @@ exports.activateMember = async (req, res) => {
 
     await user.update(updateData);
 
+    // Record payment if amount_paid is provided
+    if (amount_paid && parseFloat(amount_paid) > 0) {
+      await Payment.create({
+        user_id: id,
+        amount_paid: parseFloat(amount_paid),
+        expected_price: req.body.expected_price || null,
+        payment_type: 'subscription',
+        duration_months: parseInt(duration_months),
+        notes: `تفعيل/تمديد اشتراك — ${subscription_type}`,
+        payment_date: new Date()
+      });
+    }
+
     // Activate referral if exists
     await Referral.update(
       { status: 'active' },
@@ -59,6 +72,80 @@ exports.activateMember = async (req, res) => {
       user,
       amount_paid: amount_paid || null
     });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ==================== FREEZE / UNFREEZE / DELETE MEMBERS ====================
+exports.freezeMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { duration_days } = req.body;
+    
+    if (!duration_days || isNaN(duration_days) || duration_days <= 0) {
+      return res.status(400).json({ success: false, message: 'Invalid duration specified.' });
+    }
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ success: false, message: 'Member not found.' });
+    
+    if (user.status !== 'active') {
+      return res.status(400).json({ success: false, message: 'Only active members can be frozen.' });
+    }
+
+    // Extend subscription end by the freeze duration
+    let newEnd = user.subscription_end ? new Date(user.subscription_end) : new Date();
+    newEnd.setDate(newEnd.getDate() + parseInt(duration_days));
+
+    await user.update({
+      status: 'frozen',
+      is_frozen: true,
+      subscription_end: newEnd
+    });
+    
+    // Log freeze action if needed
+    const { FreezeLog } = require('../config/models');
+    if (FreezeLog) {
+      await FreezeLog.create({
+        user_id: user.id,
+        freeze_start: new Date(),
+        freeze_end: new Date(Date.now() + duration_days * 24 * 60 * 60 * 1000),
+        days_consumed: parseInt(duration_days)
+      });
+    }
+
+    return res.status(200).json({ success: true, message: `✅ تم تجميد الاشتراك بنجاح. ينتهي الآن في ${newEnd.toLocaleDateString('ar-EG')}`, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.unfreezeMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ success: false, message: 'Member not found.' });
+
+    await user.update({
+      status: 'active',
+      is_frozen: false
+    });
+
+    return res.status(200).json({ success: true, message: '✅ تم تفعيل الاشتراك المجمد بنجاح.', user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.deleteMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ success: false, message: 'Member not found.' });
+    
+    await user.destroy();
+    return res.status(200).json({ success: true, message: '🗑️ تم حذف المستخدم بنجاح.' });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -135,6 +222,7 @@ exports.getStats = async (req, res) => {
     const activeMembers = await User.count({ where: { role: 'member', status: 'active' } });
     const totalClasses = await GymClass.count({ where: { is_active: true } });
     const weeklyClasses = await Schedule.count({ where: { is_active: true } });
+    const totalRevenue = await Payment.sum('amount_paid') || 0;
 
     return res.status(200).json({
       success: true,
@@ -142,7 +230,8 @@ exports.getStats = async (req, res) => {
         totalMembers,
         activeMembers,
         totalClasses,
-        weeklySchedules: weeklyClasses
+        weeklySchedules: weeklyClasses,
+        totalRevenue
       }
     });
   } catch (error) {

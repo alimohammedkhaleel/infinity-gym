@@ -5,7 +5,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://infinity-gym-nu.vercel.app/api/:splat"
+  to = "https://infinity-gym-1v.vercel.app/api/:splat"
   status = 200
   force = true
 
