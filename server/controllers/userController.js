@@ -18,14 +18,21 @@ exports.getDynamicQR = async (req, res) => {
       .update(`${user.id}:${user.gym_id}:${timeWindow}`)
       .digest('hex');
 
-    const qrData = JSON.stringify({
+    const qrObj = {
       user_id: user.id,
       gym_id: user.gym_id,
       token: payload,
       window: timeWindow
-    });
+    };
 
-    const qrImage = await QRCode.toDataURL(qrData, {
+    // Convert to Base64 to safely embed in URL
+    const b64Data = Buffer.from(JSON.stringify(qrObj)).toString('base64');
+    
+    // Construct the URL so native mobile cameras can open the web app
+    const clientUrl = process.env.CLIENT_URL || 'https://infinity-gym.vercel.app';
+    const qrUrl = `${clientUrl}/scan?q=${encodeURIComponent(b64Data)}`;
+
+    const qrImage = await QRCode.toDataURL(qrUrl, {
       width: 300,
       margin: 2,
       color: { dark: '#0a0a0a', light: '#39ff14' }

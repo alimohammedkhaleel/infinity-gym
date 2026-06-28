@@ -10,6 +10,7 @@ import Migrate from './features/auth/Migrate';
 import Leaderboard from './features/dashboard/Leaderboard';
 import AdminDashboard from './features/admin/AdminDashboard';
 import Dashboard from './pages/Dashboard';
+import ScanQR from './pages/ScanQR';
 
 const App = () => {
   const [showIntro, setShowIntro] = useState(false);
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/scan" element={<ScanQR />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </>
