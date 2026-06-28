@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://infinity-gym-1v.vercel.app/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "https://infinity-gym-1v.vercel.app/api/$1"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

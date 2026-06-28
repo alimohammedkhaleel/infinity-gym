@@ -148,100 +148,54 @@ const Home = () => {
 
     let mm = gsap.matchMedia();
 
-    // Small delay to ensure cards are rendered
     const timer = setTimeout(() => {
-      // --- MatchMedia for Desktop ---
+      // --- Desktop Animations ---
       mm.add("(min-width: 769px)", () => {
-        // Desktop: Pinned schedules, pricing slides up
-        gsap.set(pricingRef.current, { yPercent: 100 });
-        
         const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
         if (scheduleCards?.length) {
           gsap.fromTo(scheduleCards, 
-            { opacity: 0, rotateY: -90, scale: 0.8, transformPerspective: 800 },
+            { opacity: 0, y: 50, scale: 0.9 },
             {
-              scrollTrigger: {
-                trigger: schedulesRef.current,
-                start: 'top 75%',
-                once: true,
-              },
-              opacity: 1, rotateY: 0, scale: 1, duration: 0.7, stagger: 0.08, ease: 'back.out(1.5)',
+              scrollTrigger: { trigger: schedulesRef.current, start: 'top 80%', once: true },
+              opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(1.5)'
             }
           );
         }
 
-        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
-        if (pricingCards.length) {
-          gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
-        }
-
-        let cardsAnimated = false;
-
-        const trigger = ScrollTrigger.create({
-          trigger: schedulesRef.current,
-          start: 'bottom bottom',
-          end: '+=100%',
-          pin: true,
-          pinSpacing: true,
-          scrub: 1,
-          onUpdate: (self) => {
-            gsap.set(pricingRef.current, { yPercent: 100 - self.progress * 100 });
-
-            if (self.progress > 0.7 && !cardsAnimated && pricingCards.length) {
-              cardsAnimated = true;
-              gsap.to(pricingCards, {
-                opacity: 1, y: 0, filter: 'blur(0px)', scale: 1, duration: 0.6, stagger: 0.09, ease: 'power3.out',
-              });
-            }
-
-            if (self.progress < 0.5 && cardsAnimated) {
-              cardsAnimated = false;
-              gsap.set(pricingCards, { opacity: 0, y: 50, filter: 'blur(8px)', scale: 0.88 });
-            }
-          },
-        });
-
-        return () => {
-          trigger.kill();
-          gsap.set(pricingRef.current, { clearProps: 'all' });
-          if (scheduleCards?.length) gsap.set(scheduleCards, { clearProps: 'all' });
-          if (pricingCards?.length) gsap.set(pricingCards, { clearProps: 'all' });
-        };
-      });
-
-      // --- MatchMedia for Mobile ---
-      mm.add("(max-width: 768px)", () => {
-        // Mobile: Normal relative layout, creative scroll triggers for cards
-        gsap.set(pricingRef.current, { yPercent: 0, clearProps: 'yPercent' });
-        
-        // 1. Mobile Schedule Cards
-        const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
-        if (scheduleCards?.length) {
-          gsap.fromTo(scheduleCards, 
-            { opacity: 0, x: 50, rotation: 5 }, // from right to left in RTL
-            {
-              scrollTrigger: {
-                trigger: schedulesRef.current,
-                start: 'top 85%',
-                once: true
-              },
-              opacity: 1, x: 0, rotation: 0, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)'
-            }
-          );
-        }
-
-        // 2. Mobile Pricing Cards
         const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
         if (pricingCards.length) {
           gsap.fromTo(pricingCards, 
-            { opacity: 0, y: 60, scale: 0.9 },
+            { opacity: 0, y: 60, scale: 0.95 },
             {
-              scrollTrigger: {
-                trigger: pricingRef.current,
-                start: 'top 85%',
-                once: true
-              },
-              opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12, ease: 'back.out(1.5)'
+              scrollTrigger: { trigger: pricingRef.current, start: 'top 80%', once: true },
+              opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+            }
+          );
+        }
+      });
+
+      // --- Mobile Animations ---
+      mm.add("(max-width: 768px)", () => {
+        // Mobile Schedule Cards
+        const scheduleCards = schedulesRef.current?.querySelectorAll('.schedule-card-animate');
+        if (scheduleCards?.length) {
+          gsap.fromTo(scheduleCards, 
+            { opacity: 0, x: 50, rotation: 3 },
+            {
+              scrollTrigger: { trigger: schedulesRef.current, start: 'top 85%', once: true },
+              opacity: 1, x: 0, rotation: 0, duration: 0.7, stagger: 0.15, ease: 'back.out(1.4)'
+            }
+          );
+        }
+
+        // Mobile Pricing Cards
+        const pricingCards = pricingRef.current.querySelectorAll('.pricing-card-animate');
+        if (pricingCards.length) {
+          gsap.fromTo(pricingCards, 
+            { opacity: 0, x: -50, scale: 0.9 },
+            {
+              scrollTrigger: { trigger: pricingRef.current, start: 'top 85%', once: true },
+              opacity: 1, x: 0, scale: 1, duration: 0.7, stagger: 0.15, ease: 'back.out(1.5)'
             }
           );
         }
