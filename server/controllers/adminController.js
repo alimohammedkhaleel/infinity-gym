@@ -127,9 +127,39 @@ exports.unfreezeMember = async (req, res) => {
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ success: false, message: 'Member not found.' });
 
+    const { FreezeLog } = require('../config/models');
+    let updatedEnd = user.subscription_end ? new Date(user.subscription_end) : null;
+    
+    if (FreezeLog && updatedEnd) {
+      // Find the most recent freeze log for this user
+      const lastFreeze = await FreezeLog.findOne({
+        where: { user_id: id },
+        order: [['createdAt', 'DESC']]
+      });
+
+      if (lastFreeze && lastFreeze.freeze_end && lastFreeze.freeze_end > new Date()) {
+        // Calculate the unused days (difference between expected freeze end and now)
+        const now = new Date();
+        const unusedMs = lastFreeze.freeze_end.getTime() - now.getTime();
+        const unusedDays = Math.ceil(unusedMs / (1000 * 60 * 60 * 24));
+        
+        if (unusedDays > 0) {
+          // Deduct unused days from subscription end
+          updatedEnd.setDate(updatedEnd.getDate() - unusedDays);
+          
+          // Update the log
+          await lastFreeze.update({
+            freeze_end: now,
+            days_consumed: lastFreeze.days_consumed - unusedDays
+          });
+        }
+      }
+    }
+
     await user.update({
       status: 'active',
-      is_frozen: false
+      is_frozen: false,
+      ...(updatedEnd ? { subscription_end: updatedEnd } : {})
     });
 
     return res.status(200).json({ success: true, message: '✅ تم تفعيل الاشتراك المجمد بنجاح.', user });
