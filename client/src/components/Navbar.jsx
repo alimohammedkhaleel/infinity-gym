@@ -61,7 +61,17 @@ const Navbar = () => {
         >
             <div className="navbar-container">
                 <a href="/" className="logo" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
-                    <span className="logo-text">Infinity <span className="highlight-green" style={{color: '#39ff14', textShadow: '0 0 10px rgba(57,255,20,0.5)'}}>Gym <span style={{marginLeft: '8px', fontSize: '1.2em'}}>🏋️</span></span></span>
+                    <img
+                        src="/infinity_logo_new.png"
+                        alt="Infinity Gym Logo"
+                        style={{
+                            height: '52px',
+                            width: 'auto',
+                            objectFit: 'contain',
+                            filter: 'drop-shadow(0 0 8px rgba(57,255,20,0.35))',
+                            display: 'block',
+                        }}
+                    />
                 </a>
 
                 <div className={`nav-user-menu ${isMenuOpen ? 'open' : ''}`}>
