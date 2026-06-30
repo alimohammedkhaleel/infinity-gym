@@ -359,6 +359,7 @@
     margin: 0;
     border-radius: 0;
     border: none;
+    padding: 0.5rem 1rem;
     border-bottom: 1px solid rgba(57, 255, 20, 0.2);
   }
 
@@ -370,6 +371,7 @@
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 0 !important;
+    padding: 0.5rem 1rem;
   }
 
   .navbar-container { padding: 0 1rem; max-width: 100%; }
@@ -378,7 +380,7 @@
 
   .nav-user-menu {
     position: fixed;
-    top: 60px;
+    top: 84px;
     right: 0;
     left: 0;
     flex-direction: column;
@@ -388,8 +390,8 @@
     gap: 12px;
     transform: translateX(100%);
     transition: transform 0.4s ease;
-    height: auto;
-    max-height: calc(100vh - 60px);
+    height: calc(100vh - 84px);
+    max-height: calc(100vh - 84px);
     overflow-y: auto;
     border-top: 1px solid rgba(57, 255, 20, 0.2);
   }
