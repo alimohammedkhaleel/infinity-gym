@@ -183,6 +183,12 @@ const Services = () => {
       .catch(err => console.error('Failed to load classes', err));
   }, []);
 
+  useEffect(() => {
+    if (servicesData.length > 0) {
+      ScrollTrigger.refresh();
+    }
+  }, [servicesData]);
+
   return (
     <div className="home-page" dir="rtl">
 
@@ -278,12 +284,12 @@ const Services = () => {
         <ImagesArcAnimation />
       </div>
 
-      {/* ======== SECTION 5: FUNDAMENTAL PILLARS (4 CARDS FIXED) ======== */}
+      {/* ======== SECTION 5: FUNDAMENTAL PILLARS ======== */}
       <div ref={addToRefs} dir="ltr">
         <FundamentalPillars 
           title="مميزات"
           highlightText="Infinity Gym"
-          cardsData={[
+          cardsData={servicesData.length > 0 ? servicesData : [
             { id: '01', title: 'أجهزة حديثة ومتطورة', desc: 'نمتلك أحدث الأجهزة الرياضية المعتمدة عالمياً لضمان تجربة تمرين آمنة وفعالة تستهدف جميع عضلات الجسم بدقة.' },
             { id: '02', title: 'نخبة المدربين المحترفين', desc: 'يضم فريقنا مجموعة من أفضل المدربين المعتمدين لتوجيهك خطوة بخطوة وتقديم برامج تدريبية مخصصة تناسب أهدافك.' },
             { id: '03', title: 'برامج تغذية علمية', desc: 'لا يكتمل التدريب بدون تغذية سليمة. نوفر خطط وجبات ومكملات غذائية مبنية على أسس علمية لتسريع نتائجك.' },

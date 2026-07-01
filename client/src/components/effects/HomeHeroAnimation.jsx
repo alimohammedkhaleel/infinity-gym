@@ -84,6 +84,7 @@ export default function HomeHeroAnimation() {
         alt="Infinity Gym Main" 
         className="home-hero-main-image"
         ref={mainImageRef}
+        fetchpriority="high"
       />
       <div className="home-hero-overlay"></div>
       
@@ -107,6 +108,7 @@ export default function HomeHeroAnimation() {
           alt={`Corner ${idx}`}
           className={`home-hero-corner-image pos-${idx}`}
           ref={el => cornerImagesRef.current[idx] = el}
+          loading="lazy"
         />
       ))}
     </div>

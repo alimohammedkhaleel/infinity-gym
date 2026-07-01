@@ -87,15 +87,15 @@ const Footer = () => {
             <h4 className="col-title">📞 تواصل معنا</h4>
             <ul className="contact-list">
               <li>
-                <a href="tel:+201015000540" className="contact-link-item">
+                <a href="https://wa.me/201015000540" target="_blank" rel="noopener noreferrer" className="contact-link-item">
                   <Phone size={16} className="highlight-green" />
-                  <span>01015000540</span>
+                  <span>01015000540 (واتساب)</span>
                 </a>
               </li>
               <li>
-                <a href="tel:+201090070836" className="contact-link-item">
+                <a href="https://wa.me/201090070836" target="_blank" rel="noopener noreferrer" className="contact-link-item">
                   <Phone size={16} className="highlight-green" />
-                  <span>01090070836</span>
+                  <span>01090070836 (واتساب)</span>
                 </a>
               </li>
               <li>
@@ -173,7 +173,7 @@ const Footer = () => {
             </p>
             <div className="dev-meta-links">
               <span className="dev-skill-tag">Full Stack React &amp; Express Developer</span>
-              <a href="tel:+201121360605" className="dev-tel-link">📞 01121360605</a>
+              <a href="https://wa.me/201121360605" target="_blank" rel="noopener noreferrer" className="dev-tel-link">📞 01121360605 (واتساب)</a>
               <a
                 href="https://www.tiktok.com/@zlolcoding?is_from_webapp=1&amp;sender_device=pc"
                 target="_blank"

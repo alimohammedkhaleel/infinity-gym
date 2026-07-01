@@ -201,6 +201,9 @@ const Home = () => {
           );
         }
       });
+
+      // Recalculate ScrollTrigger positions now that DOM items have been populated
+      ScrollTrigger.refresh();
     }, 300);
 
     return () => {

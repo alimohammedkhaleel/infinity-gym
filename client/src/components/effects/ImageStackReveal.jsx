@@ -56,10 +56,10 @@ export default function ImageStackReveal() {
       </div>
 
       <div className="isr-images">
-        <img src="/assets/personal_training.png" className="isr-img isr-pos-1" ref={addToRefs} alt="Training 1" />
-        <img src="/assets/nutrition.png" className="isr-img isr-pos-2" ref={addToRefs} alt="Training 2" />
-        <img src="/assets/cardio_training.png" className="isr-img isr-pos-3" ref={addToRefs} alt="Training 3" />
-        <img src="/assets/weight_lifting.png" className="isr-img isr-pos-4" ref={addToRefs} alt="Training 4" />
+        <img src="/assets/personal_training.png" className="isr-img isr-pos-1" ref={addToRefs} alt="Training 1" loading="lazy" />
+        <img src="/assets/nutrition.png" className="isr-img isr-pos-2" ref={addToRefs} alt="Training 2" loading="lazy" />
+        <img src="/assets/cardio_training.png" className="isr-img isr-pos-3" ref={addToRefs} alt="Training 3" loading="lazy" />
+        <img src="/assets/weight_lifting.png" className="isr-img isr-pos-4" ref={addToRefs} alt="Training 4" loading="lazy" />
       </div>
     </div>
   );

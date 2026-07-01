@@ -71,12 +71,14 @@ export default function TextToImages() {
           alt="Yoga Training" 
           className="tti-img tti-left" 
           ref={leftImageRef}
+          loading="lazy"
         />
         <img 
           src="/assets/weight_lifting.png" 
           alt="Weight Lifting" 
           className="tti-img tti-right" 
           ref={rightImageRef}
+          loading="lazy"
         />
       </div>
     </div>
