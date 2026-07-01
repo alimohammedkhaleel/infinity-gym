@@ -408,6 +408,122 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ======== LOCAL SEO: CONTACT & ADDRESS SECTION ======== */}
+      <section
+        className="content-section"
+        dir="rtl"
+        style={{ borderTop: '1px solid rgba(57,255,20,0.15)', paddingTop: '4rem' }}
+        itemScope
+        itemType="https://schema.org/SportsActivityLocation"
+      >
+        <h2 className="section-title" style={{ fontSize: 'clamp(1.6rem, 4vw, 2.5rem)' }}>
+          تواصل معنا &amp; <span className="highlight-green">موقعنا</span>
+        </h2>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '2rem',
+          marginTop: '2.5rem',
+          width: '100%'
+        }}>
+
+          {/* العنوان */}
+          <div className="pt-card" style={{ padding: '1.8rem' }} itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+            <h3 style={{ color: 'var(--accent)', marginBottom: '1rem', fontSize: '1.2rem' }}>📍 عنواننا</h3>
+            <p style={{ color: 'var(--text-primary)', lineHeight: '1.8', marginBottom: '0.4rem' }}>
+              <span itemProp="addressLocality"><strong>حي فيصل – السويس</strong></span>
+            </p>
+            <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '0.95rem' }} itemProp="streetAddress">
+              السلام 1 – شارع عثمان بن عفان<br />
+              خلف مدرسة اللغات الإسلامية<br />
+              مول المروة – السويس
+            </p>
+            <a
+              href="https://maps.google.com/?q=Infinity+Gym+Suez+حي+فيصل+السويس"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', marginTop: '1rem', color: 'var(--accent)', textDecoration: 'underline', fontSize: '0.9rem' }}
+            >
+              🗺️ اعرض على خرائط جوجل
+            </a>
+          </div>
+
+          {/* التواصل */}
+          <div className="pt-card" style={{ padding: '1.8rem' }}>
+            <h3 style={{ color: 'var(--accent)', marginBottom: '1rem', fontSize: '1.2rem' }}>📞 تواصل معنا</h3>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '0.6rem', fontSize: '0.9rem' }}>واتساب / تليفون:</p>
+            <a
+              href="tel:+201015000540"
+              style={{ display: 'block', color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.5rem', textDecoration: 'none' }}
+              itemProp="telephone"
+            >
+              📱 01015000540
+            </a>
+            <a
+              href="tel:+201090070836"
+              style={{ display: 'block', color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '1.1rem', textDecoration: 'none' }}
+            >
+              📱 01090070836
+            </a>
+            <a
+              href="https://wa.me/201015000540"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+              style={{ display: 'inline-block', marginTop: '1.2rem', padding: '0.6rem 1.4rem', fontSize: '0.9rem', borderRadius: '8px' }}
+            >
+              💬 تواصل واتساب
+            </a>
+          </div>
+
+          {/* مواعيد العمل */}
+          <div className="pt-card" style={{ padding: '1.8rem' }}>
+            <h3 style={{ color: 'var(--accent)', marginBottom: '1rem', fontSize: '1.2rem' }}>🕐 مواعيد العمل</h3>
+            <p style={{ color: 'var(--text-primary)', fontWeight: 'bold', fontSize: '1.3rem', marginBottom: '0.5rem' }}>
+              24 / 7
+            </p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.8' }}>
+              مفتوح طوال اليوم<br />
+              جميع أيام الأسبوع<br />
+              بدون إجازات
+            </p>
+            <div style={{ marginTop: '1rem', padding: '0.6rem 1rem', background: 'rgba(57,255,20,0.08)', borderRadius: '8px', border: '1px solid rgba(57,255,20,0.2)' }}>
+              <span style={{ color: 'var(--accent)', fontWeight: 'bold', fontSize: '0.9rem' }}>✅ مفتوح الآن</span>
+            </div>
+          </div>
+
+          {/* تابعنا */}
+          <div className="pt-card" style={{ padding: '1.8rem' }}>
+            <h3 style={{ color: 'var(--accent)', marginBottom: '1rem', fontSize: '1.2rem' }}>🌐 تابعنا</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+              <a
+                href="https://www.facebook.com/InfinityGym23/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--text-primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              >
+                📘 Infinity Gym – فيسبوك
+              </a>
+              <a
+                href="https://www.instagram.com/infinitygym_suez/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--text-primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              >
+                📸 infinitygym_suez – انستجرام
+              </a>
+            </div>
+            <p style={{ marginTop: '1.2rem', color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.7' }}>
+              <strong style={{ color: 'var(--text-primary)' }}>Infinity Gym</strong><br />
+              انفينيتي جيم السويس – حي فيصل<br />
+              أفضل صالة رياضية في السويس
+            </p>
+          </div>
+
+        </div>
+      </section>
+
     </div>
   );
 };

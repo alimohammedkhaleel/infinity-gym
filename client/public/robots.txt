@@ -1,7 +1,14 @@
 User-agent: *
 Allow: /
+Allow: /services
+Allow: /login
+Allow: /register
 Disallow: /dashboard
 Disallow: /admin
 Disallow: /scan
+Disallow: /api/
+
+# Crawl delay for polite crawling
+Crawl-delay: 1
 
 Sitemap: https://infinity-gym-kt7x.vercel.app/sitemap.xml
