@@ -167,6 +167,13 @@ const Services = () => {
   ];
 
   useEffect(() => {
+    // Dynamic SEO update
+    document.title = "خدماتنا الرياضية | Infinity Gym انفينيتي جيم السويس";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', "استكشف خدمات Infinity Gym السويس: تدريب شخصي VIP مع الكابتن أحمد طه، كلاسات فتنس وزومبا ويوجا جماعية، صالة حديد وأوزان حرة متكاملة، قياسات InBody وتغذية صحية.");
+    }
+
     // Fetch Dynamic Classes for Services Guide
     fetch('/api/admin/classes')
       .then(res => res.json())

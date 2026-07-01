@@ -143,17 +143,30 @@
 }
 
 .map-link-btn {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   align-self: start;
   font-size: 0.85rem;
   color: #39ff14;
-  text-decoration: underline;
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  width: fit-content;
+  margin-top: 0.5rem;
 }
 
 .map-link-btn:hover {
-  color: #ffffff;
+  background: #39ff14;
+  color: #000000;
+  border-color: #39ff14;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+  transform: translateY(-2px);
 }
 
 .hours-detail {

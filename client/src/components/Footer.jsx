@@ -121,7 +121,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="map-link-btn"
             >
-              🗺️ اتجاهات خرائط جوجل
+              🗺️ عرض الموقع على الخريطة
             </a>
           </div>
 

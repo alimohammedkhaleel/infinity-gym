@@ -35,6 +35,13 @@ const Home = () => {
 
   // Fetch live stats + prices from DB
   useEffect(() => {
+    // Dynamic SEO update
+    document.title = "Infinity Gym السويس | أفضل صالة جيم في حي فيصل تحت إشراف الكابتن أحمد طه";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', "Infinity Gym انفينيتي جيم – صالة الألعاب الرياضية الأولى في حي فيصل بالسويس بإدارة الكابتن أحمد طه. تدريب شخصي، كلاسات فتنس وزومبا، قياسات InBody، مفتوح 24 ساعة.");
+    }
+
     fetch('/api/admin/stats')
       .then(res => res.json())
       .then(data => { if (data.success) setStats(data.stats); })
