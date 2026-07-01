@@ -1,12 +1,13 @@
 .simple-footer {
-  background-color: #111111;
+  background-color: #0d0d0d;
   color: #a1a1aa;
-  padding: 4rem 1rem;
+  padding: 4rem 1.5rem;
   text-align: center;
   position: relative;
-  margin-top: 0; /* Merge seamlessly with last section */
+  margin-top: 0;
   overflow: hidden;
   z-index: 15;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer-glow-line {
@@ -23,27 +24,156 @@
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.footer-content h3 {
+.footer-title {
+  color: #ffffff;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 900;
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  letter-spacing: 2px;
+}
+
+.highlight-green {
   color: #39ff14;
-  font-size: 1.8rem;
-  margin-bottom: 0.75rem;
-  font-weight: 800;
-  font-family: 'Cairo', sans-serif;
-  letter-spacing: 1px;
-  opacity: 1;
-  visibility: visible;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
 }
 
-.footer-content p {
+.footer-tagline {
   font-size: 1.1rem;
-  margin-bottom: 1.25rem;
-  opacity: 1;
-  visibility: visible;
+  color: #a1a1aa;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* Social links styling */
+.footer-socials {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.05);
+  border-color: rgba(57, 255, 20, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(57, 255, 20, 0.1);
+}
+
+/* Developer Info Section */
+.developer-info {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dev-text {
+  font-size: 0.95rem;
+  color: #d4d4d8;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.heart-icon {
+  color: #ef4444;
+  animation: pulse-heart 1.5s infinite;
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.dev-name {
+  color: #39ff14;
+  font-weight: 700;
+}
+
+.dev-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dev-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e4e4e7;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dev-contacts {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+.dev-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  text-decoration: none;
+  padding: 0.3rem 0.7rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+.dev-contact-item:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dev-contact-item.tiktok-link:hover {
+  color: #ff0050;
+  border-color: rgba(255, 0, 80, 0.3);
+  background: rgba(255, 0, 80, 0.03);
 }
 
 .copyright {
-  font-size: 0.9rem;
-  opacity: 0.6;
+  font-size: 0.85rem;
+  color: #71717a;
+  margin: 0;
+  margin-top: 1rem;
 }

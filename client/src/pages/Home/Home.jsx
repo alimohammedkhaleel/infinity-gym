@@ -6,6 +6,7 @@ import FundamentalPillars from '../../components/effects/FundamentalPillars';
 import HomeHeroAnimation from '../../components/effects/HomeHeroAnimation';
 import TextToImages from '../../components/effects/TextToImages';
 import ImageStackReveal from '../../components/effects/ImageStackReveal';
+import Footer from '../../components/Footer';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link, useNavigate } from 'react-router-dom';
@@ -506,12 +507,12 @@ const Home = () => {
                 📘 Infinity Gym – فيسبوك
               </a>
               <a
-                href="https://www.instagram.com/infinitygym_suez/"
+                href="https://www.instagram.com/infinity_gym23/?hl=ar"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: 'var(--text-primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
               >
-                📸 infinitygym_suez – انستجرام
+                📸 infinity_gym23 – انستجرام
               </a>
             </div>
             <p style={{ marginTop: '1.2rem', color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.7' }}>
@@ -524,6 +525,7 @@ const Home = () => {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 };

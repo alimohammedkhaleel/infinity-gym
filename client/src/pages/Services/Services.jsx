@@ -4,6 +4,7 @@ import ScrollTube from '../../components/effects/ScrollTube';
 import ImagesArcAnimation from '../../components/effects/ImagesArcAnimation';
 import InfiniteMenu from '../../components/effects/InfiniteMenu';
 import FundamentalPillars from '../../components/effects/FundamentalPillars';
+import Footer from '../../components/Footer';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import imgCopy2 from '../../assets/image copy 2.png';
@@ -291,6 +292,7 @@ const Services = () => {
         />
       </div>
 
+      <Footer />
     </div>
   );
 };
