@@ -19,7 +19,6 @@ gsap.registerPlugin(ScrollTrigger);
 const Services = () => {
   const heroRef = useRef(null);
   const sectionsRef = useRef([]);
-  const [servicesData, setServicesData] = useState([]);
 
   const addToRefs = (el) => {
     if (el && !sectionsRef.current.includes(el)) {
@@ -173,28 +172,11 @@ const Services = () => {
     if (metaDesc) {
       metaDesc.setAttribute('content', "استكشف خدمات Infinity Gym السويس: تدريب شخصي VIP مع الكابتن أحمد طه، كلاسات فتنس وزومبا ويوجا جماعية، صالة حديد وأوزان حرة متكاملة، قياسات InBody وتغذية صحية.");
     }
-
-    // Fetch Dynamic Classes for Services Guide
-    fetch('/api/admin/classes')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.classes) {
-          const mapped = data.classes.map((cls, idx) => ({
-            id: String(idx + 1).padStart(2, '0'),
-            title: cls.name,
-            desc: cls.description
-          }));
-          setServicesData(mapped);
-        }
-      })
-      .catch(err => console.error('Failed to load classes', err));
   }, []);
 
   useEffect(() => {
-    if (servicesData.length > 0) {
-      ScrollTrigger.refresh();
-    }
-  }, [servicesData]);
+    ScrollTrigger.refresh();
+  }, []);
 
   return (
     <div className="home-page" dir="rtl">
@@ -296,7 +278,7 @@ const Services = () => {
         <FundamentalPillars 
           title="مميزات"
           highlightText="Infinity Gym"
-          cardsData={servicesData.length > 0 ? servicesData : [
+          cardsData={[
             { id: '01', title: 'أجهزة حديثة ومتطورة', desc: 'نمتلك أحدث الأجهزة الرياضية المعتمدة عالمياً لضمان تجربة تمرين آمنة وفعالة تستهدف جميع عضلات الجسم بدقة.' },
             { id: '02', title: 'نخبة المدربين المحترفين', desc: 'يضم فريقنا مجموعة من أفضل المدربين المعتمدين لتوجيهك خطوة بخطوة وتقديم برامج تدريبية مخصصة تناسب أهدافك.' },
             { id: '03', title: 'برامج تغذية علمية', desc: 'لا يكتمل التدريب بدون تغذية سليمة. نوفر خطط وجبات ومكملات غذائية مبنية على أسس علمية لتسريع نتائجك.' },
