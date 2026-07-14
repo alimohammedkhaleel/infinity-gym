@@ -31,7 +31,7 @@ const App = () => {
   return (
     <Router>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#111', color: '#ff4444', textAlign: 'center', padding: '20px', fontFamily: 'system-ui, sans-serif', direction: 'rtl', margin: 0 }}>
-        <h1 style={{ lineHeight: '1.5' }}>تم اغلاق الموقع من قبل الشركة المالكة له لان كابتن احمد طه لم يقم بسداد حق هذا المشروع</h1>
+        <h1 style={{ lineHeight: '1.5' }}>الموقع مغلق للصيانة وسيتم إعادة فتحه حتى إشعار آخر</h1>
       </div>
 
       {/* 
