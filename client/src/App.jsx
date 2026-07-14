@@ -13,24 +13,28 @@ import Dashboard from './pages/Dashboard';
 import ScanQR from './pages/ScanQR';
 
 const App = () => {
-  const [showIntro, setShowIntro] = useState(false);
+  // const [showIntro, setShowIntro] = useState(false);
 
-  useEffect(() => {
-    // Only show presentation once per session
-    const hasSeenIntro = sessionStorage.getItem('infinity_intro');
-    if (!hasSeenIntro) {
-      setShowIntro(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Only show presentation once per session
+  //   const hasSeenIntro = sessionStorage.getItem('infinity_intro');
+  //   if (!hasSeenIntro) {
+  //     setShowIntro(true);
+  //   }
+  // }, []);
 
-  const handleIntroFinish = () => {
-    sessionStorage.setItem('infinity_intro', 'true');
-    setShowIntro(false);
-  };
+  // const handleIntroFinish = () => {
+  //   sessionStorage.setItem('infinity_intro', 'true');
+  //   setShowIntro(false);
+  // };
 
   return (
     <Router>
-      {/* Show Presentation over everything if active */}
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#111', color: '#ff4444', textAlign: 'center', padding: '20px', fontFamily: 'system-ui, sans-serif', direction: 'rtl', margin: 0 }}>
+        <h1 style={{ lineHeight: '1.5' }}>تم اغلاق الموقع من قبل الشركة المالكة له لان كابتن احمد طه لم يقم بسداد حق هذا المشروع</h1>
+      </div>
+
+      {/* 
       {showIntro && <Presentation onFinish={handleIntroFinish} />}
       
       {!showIntro && (
@@ -50,6 +54,7 @@ const App = () => {
           </Routes>
         </>
       )}
+      */}
     </Router>
   );
 };
